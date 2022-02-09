@@ -21,12 +21,22 @@ else:
 hdwf = ctypes.c_int()
 hdwf = device.open()
 
+# channel 0 - shift
+# channel 1 - clock
+# channel 2 - data
+# channel 3 - reset
 
-dynamic_digital.digital_rectangular_pulse(hdwf,1,100)
-
-time.sleep(30)
-
-
+def led_matrix(matrix_array):
+    staticIO.turn_on_channel(hdwf,0)
+    for i in range(len(matrix_array)):
+        staticIO.turn_on_channel(hdwf,2)
+        staticIO.turn_on_channel(hdwf,1)
+        staticIO.turn_off_channel(hdwf,1)
+        
+    staticIO.turn_off_channel(hdwf,0)
+ 
+led_matrix([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+time.sleep(10)
 device.close(hdwf)
 
 

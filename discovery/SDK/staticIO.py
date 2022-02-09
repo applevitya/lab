@@ -109,11 +109,11 @@ def reset_IO(device_handle):
     return
 
 
-def turn_on_led(device_handle,channel):
+def turn_on_channel(device_handle,channel):
     set_mode(device_handle,channel,True)
     set_state(device_handle,channel,True)
     return
-def turn_off_led(device_handle,channel):
+def turn_off_channel(device_handle,channel):
     set_state(device_handle,channel,False)
 
 

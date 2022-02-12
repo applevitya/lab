@@ -29,7 +29,7 @@ hdwf = device.open()
 def led_matrix(matrix_array):
     staticIO.turn_on_channel(hdwf,0)
     for i in range(len(matrix_array)):
-        staticIO.turn_on_channel(hdwf,2)
+        staticIO.turn_off_channel(hdwf,2)
         staticIO.turn_on_channel(hdwf,1)
         staticIO.turn_off_channel(hdwf,1)
         

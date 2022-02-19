@@ -27,16 +27,32 @@ hdwf = device.open()
 # channel 3 - reset
 
 def led_matrix(matrix_array):
-    staticIO.turn_on_channel(hdwf,0)
+    staticIO.turn_off_channel(hdwf,1)
+    time.sleep(0.5)
+    staticIO.turn_off_channel(hdwf,2)
+    
     for i in range(len(matrix_array)):
-        staticIO.turn_off_channel(hdwf,2)
-        staticIO.turn_on_channel(hdwf,1)
-        staticIO.turn_off_channel(hdwf,1)
+        staticIO.turn_on_channel(hdwf,2)
         
-    staticIO.turn_off_channel(hdwf,0)
+        time.sleep(0.1)
+        staticIO.turn_off_channel(hdwf,0)
+        
+        time.sleep(0.1)
+        staticIO.turn_on_channel(hdwf,0)
+        
+        time.sleep(0.01)
+        #staticIO.reset_IO(hdwf)
+        
+    staticIO.turn_on_channel(hdwf,1)
+    time.sleep(0.01)
+    
+    return
  
-led_matrix([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
-time.sleep(10)
+staticIO.turn_on_channel(hdwf,3)
+
+led_matrix([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+time.sleep(1)
+
 device.close(hdwf)
 
 

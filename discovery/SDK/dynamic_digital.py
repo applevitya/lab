@@ -2,6 +2,7 @@
 
 import sys
 import ctypes
+import staticIO
 
 """-----------------------------------------------------------------------"""
 
@@ -22,3 +23,7 @@ def digital_rectangular_pulse(device_handle,channel,frequency): #freq in Hz
     dwf.FDwfDigitalOutCounterSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(1)) ## 1 tick low, 1 tick high
     dwf.FDwfDigitalOutConfigure(device_handle, ctypes.c_int(1))
     return
+
+def led_matrix(device_handle,shift,clock,data,matrix):
+    staticIO.turn_off_channel(device_handle,shift)
+    

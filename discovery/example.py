@@ -21,8 +21,8 @@ else:
 hdwf = ctypes.c_int()
 hdwf = device.open()
 
-# channel 0 - shift
-# channel 1 - clock
+# channel 0 - clock
+# channel 1 - shift
 # channel 2 - data
 # channel 3 - reset
 

@@ -117,3 +117,8 @@ def turn_off_channel(device_handle,channel):
     set_state(device_handle,channel,False)
 
 
+"""-----------------------------------------------------------------------"""
+
+
+def led_matrix(device_handle,shift,clock,data,matrix):
+    turn_off_channel(device_handle,shift)

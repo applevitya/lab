@@ -2,6 +2,7 @@
 
 import ctypes
 import sys
+import time
 
 if sys.platform.startswith("win"):
     dwf = ctypes.cdll.dwf
@@ -112,13 +113,15 @@ def reset_IO(device_handle):
 def turn_on_channel(device_handle,channel):
     set_mode(device_handle,channel,True)
     set_state(device_handle,channel,True)
+    time.sleep(0.01)
     return
 def turn_off_channel(device_handle,channel):
     set_state(device_handle,channel,False)
+    time.sleep(0.01)
 
 
 """-----------------------------------------------------------------------"""
 
+#Analog to digital
 
-def led_matrix(device_handle,shift,clock,data,matrix):
-    turn_off_channel(device_handle,shift)
+

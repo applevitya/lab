@@ -11,6 +11,10 @@ elif sys.platform.startswith("darwin"):
     dwf = ctypes.cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
 else:
     dwf = ctypes.cdll.LoadLibrary("libdwf.so")
+    
+"""-----------------------------------------------------------------------"""
+
+
 
 def open():
     # this is the device handle - it will be used by all functions to "address" the connected device

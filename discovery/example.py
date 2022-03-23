@@ -9,6 +9,8 @@ from  SDK import staticIO, device, dynamic_digital
 import sys
 import time
 
+import asyncio
+
 if sys.platform.startswith("win"):
     dwf = ctypes.cdll.dwf
 elif sys.platform.startswith("darwin"):
@@ -26,22 +28,20 @@ hdwf = device.open()
 # channel 2 - data
 # channel 3 - reset
 
-def led_matrix(matrix_array):
-    staticIO.turn_off_channel(hdwf,1)
-    
-    for i in range(len(matrix_array)):
-        staticIO.turn_on_channel(hdwf,2)
-        
-        staticIO.turn_off_channel(hdwf,0)
-        staticIO.turn_on_channel(hdwf,0)
-        
-    staticIO.turn_on_channel(hdwf,1)
-    
-    return
- 
+led_matrix_array = []
 
-led_matrix([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
-time.sleep(1)
+for i in range(64):
+    led_matrix_array.append(1)
+
+dynamic_digital.led_matrix(hdwf,1,0,2,led_matrix_array)
+
+
+
+
+dwf.FDwfDigitalOutReset(hdwf)
+
+
+
 
 device.close(hdwf)
 

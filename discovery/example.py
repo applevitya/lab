@@ -28,13 +28,10 @@ hdwf = device.open()
 # channel 2 - data
 # channel 3 - reset
 
-led_matrix_array = []
 
-for i in range(64):
-    led_matrix_array.append(1)
 
-#dynamic_digital.led_matrix(hdwf,1,0,2,led_matrix_array)
-dwf.FDwfDigitalOutRepeatTriggerSet(hdwf,ctypes.c_int(1))
+
+
 
 
 

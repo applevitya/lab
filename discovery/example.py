@@ -125,7 +125,7 @@ dwf.FDwfDigitalOutDataInfo(hdwf,c_int(pin),byref(pcount))
 
 print(len(data_py))
 dwf.FDwfDigitalOutReset(hdwf)
-dwf.FDwfDeviceCloseAll()
+
 
 
 

@@ -27,7 +27,6 @@ def rectangular_pulses(device_handle,channel,frequency): #freq in Hz
     dwf.FDwfDigitalOutDividerSet(device_handle, ctypes.c_int(channel), ctypes.c_int(int(hzSys.value/2e1/frequency)))
     dwf.FDwfDigitalOutCounterSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(1)) ## 1 tick low, 1 tick high
     dwf.FDwfDigitalOutCounterInitSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(0)) #начинать с high on start
-    dwf.FDwfDigitalOutConfigure(device_handle, ctypes.c_int(1))
     return
 """-----------------------------------------------------------------------"""
 
@@ -39,7 +38,6 @@ def pulse(device_handle,channel,duration): #duration in s
     dwf.FDwfDigitalOutCounterInitSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(0)) # initialize high on start
     dwf.FDwfDigitalOutCounterSet(device_handle, ctypes.c_int(channel), ctypes.c_int(0), ctypes.c_int(0)) # low/high count zero, no toggle during run
     dwf.FDwfDigitalOutEnableSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1))
-    dwf.FDwfDigitalOutConfigure(device_handle, ctypes.c_int(1))
     return
 
 
@@ -69,5 +67,6 @@ def led_matrix(device_handle,shift,clock,data,matrix):
     staticIO.turn_on_channel(device_handle,shift)
     return
     
+
 
     

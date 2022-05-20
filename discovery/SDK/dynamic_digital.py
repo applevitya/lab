@@ -47,7 +47,7 @@ def pulse(device_handle,channel,duration): #duration in s
 
 
 
-def led_matrix(device_handle,shift,clock,data,matrix):
+def led_matrix2(device_handle,shift,clock,data,matrix):
     staticIO.turn_off_channel(device_handle,shift)
     
     for i in range(len(matrix)):
@@ -67,6 +67,24 @@ def led_matrix(device_handle,shift,clock,data,matrix):
     staticIO.turn_on_channel(device_handle,shift)
     return
     
+
+
+def led_matrix(device_handle,shift,clock,data,matrix):
+    d_shift = [0 for x in range(256)]
+    d_clock = [0 for x in range(256)]
+    d_data  = [0 for i in range(256)]
+
+    d_shift[0] = 0
+    d_shift[256] = 1
+
+    
+
+
+
+
+
+
+
 
 
     

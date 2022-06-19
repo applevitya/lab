@@ -71,11 +71,48 @@ def led_matrix2(device_handle,shift,clock,data,matrix):
 
 def led_matrix(device_handle,shift,clock,data,matrix):
     d_shift = [0 for x in range(256)]
-    d_clock = [0 for x in range(256)]
     d_data  = [0 for i in range(256)]
+    d_clock =[]
 
     d_shift[0] = 0
-    d_shift[256] = 1
+    d_shift[255] = 1
+
+    d_clock.append(0)
+    data_new = [0]
+    for i in range(len(data)):
+        if data[i]==1:
+            for j in range(3): data_new.append(1)
+        else:
+            for k in range(3): data_new.append(0)
+
+    for i in range(len(data_new)):
+        d_clock.append(0)
+        d_clock.append(1)
+        d_clock.append(0)
+
+    hzSys = ctypes.c_double()
+    dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))
+
+    rgbdata_shift=(c_ubyte*((len(d_shift)+7)>>3))(0)
+    rgbdata_data=(c_ubyte*((len(data_new)+7)>>3))(0)
+    rgbdata_clock=(c_ubyte*((len(d_clock)+7)>>3))(0)
+
+    for i in range(len(d_shift_)):
+        if data_py[i] != 0:
+            rgbdata_shifta_[i>>3] |= 1<<(i&7)
+
+    for i in range(len(data_new)):
+        if data_py[i] != 0:
+            rgbdata_data[i>>3] |= 1<<(i&7)
+
+    for i in range(len(d_clock)):
+        if data_py[i] != 0:
+            rgbdata_clock[i>>3] |= 1<<(i&7)
+
+    pin_shift = 0
+    pin_data = 1
+    pin_clock = 2
+
 
     
 

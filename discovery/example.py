@@ -49,7 +49,7 @@ if hdwf.value == 0:
 
 
 data_for_led = [1 for i in range(63)]
-dynamic_digital.led_matrix(hdwf,0,1,2)
+#dynamic_digital.led_matrix(hdwf,0,1,2)
 
 
 

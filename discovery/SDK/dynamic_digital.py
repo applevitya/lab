@@ -1,7 +1,7 @@
 """ DEVICE CONTROL FUNCTIONS: open, check_error, close """
 
 import sys
-import ctypes
+from ctypes import *
 from SDK import staticIO
 
 """-----------------------------------------------------------------------"""

@@ -7,13 +7,13 @@ from SDK import staticIO
 """-----------------------------------------------------------------------"""
 
 if sys.platform.startswith("win"):
-    dwf = ctypes.cdll.dwf
+    dwf = cdll.dwf
 elif sys.platform.startswith("darwin"):
-    dwf = ctypes.cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
+    dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
 else:
-    dwf = ctypes.cdll.LoadLibrary("libdwf.so")
+    dwf = cdll.LoadLibrary("libdwf.so")
 
-hzSys = ctypes.c_double()
+hzSys = c_double()
 """-----------------------------------------------------------------------"""
 
 
@@ -21,23 +21,23 @@ hzSys = ctypes.c_double()
 
 def rectangular_pulses(device_handle,channel,frequency): #freq in Hz
     frequency = frequency/10
-    dwf.FDwfDigitalOutInternalClockInfo(device_handle, ctypes.byref(hzSys))
+    dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))
     
-    dwf.FDwfDigitalOutEnableSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1)) #pulse on IO pin
-    dwf.FDwfDigitalOutDividerSet(device_handle, ctypes.c_int(channel), ctypes.c_int(int(hzSys.value/2e1/frequency)))
-    dwf.FDwfDigitalOutCounterSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(1)) ## 1 tick low, 1 tick high
-    dwf.FDwfDigitalOutCounterInitSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(0)) #начинать с high on start
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(channel), c_int(1)) #pulse on IO pin
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(channel), c_int(int(hzSys.value/2e1/frequency)))
+    dwf.FDwfDigitalOutCounterSet(device_handle, c_int(channel), c_int(1), c_int(1)) ## 1 tick low, 1 tick high
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(channel), c_int(1), c_int(0)) #начинать с high on start
     return
 """-----------------------------------------------------------------------"""
 
 
 def pulse(device_handle,channel,duration): #duration in s
-    dwf.FDwfDigitalOutRunSet(device_handle, ctypes.c_double(duration)) # second run
-    dwf.FDwfDigitalOutRepeatSet(device_handle, ctypes.c_int(1)) # once
-    dwf.FDwfDigitalOutIdleSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1)) # 1=DwfDigitalOutIdleLow, low when not running
-    dwf.FDwfDigitalOutCounterInitSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1), ctypes.c_int(0)) # initialize high on start
-    dwf.FDwfDigitalOutCounterSet(device_handle, ctypes.c_int(channel), ctypes.c_int(0), ctypes.c_int(0)) # low/high count zero, no toggle during run
-    dwf.FDwfDigitalOutEnableSet(device_handle, ctypes.c_int(channel), ctypes.c_int(1))
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(duration)) # second run
+    dwf.FDwfDigitalOutRepeatSet(device_handle, c_int(1)) # once
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(channel), c_int(1)) # 1=DwfDigitalOutIdleLow, low when not running
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(channel), c_int(1), c_int(0)) # initialize high on start
+    dwf.FDwfDigitalOutCounterSet(device_handle, c_int(channel), c_int(0), c_int(0)) # low/high count zero, no toggle during run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(channel), c_int(1))
     return
 
 
@@ -90,7 +90,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
         d_clock.append(1)
         d_clock.append(0)
 
-    hzSys = ctypes.c_double()
+    hzSys = c_double()
     dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))
 
     rgbdata_shift=(c_ubyte*((len(d_shift)+7)>>3))(0)

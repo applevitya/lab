@@ -109,12 +109,43 @@ def led_matrix(device_handle,shift,clock,data,matrix):
         if data_py[i] != 0:
             rgbdata_clock[i>>3] |= 1<<(i&7)
 
-    pin_shift = 0
-    pin_data = 1
-    pin_clock = 2
+    pin_shift = shift
+    pin_data = data
+    pin_clock = clock
+
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.0023)) # 1ms run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_shift), c_int(1))
+
+    dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_shift), DwfDigitalOutTypeCustom)
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_shift), c_int(int(hzSys.value/(2*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_shift), byref(rgbdata_shift), c_int(len(d_shift)))
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
+    ######
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.0023)) # 1ms run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_data), c_int(1))
+
+    dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_data), DwfDigitalOutTypeCustom)
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_data), c_int(int(hzSys.value/(2*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_data), byref(rgbdata_data), c_int(len(data_new)))
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
+
+    ######
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.0023)) # 1ms run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_clock), c_int(1))
+
+    dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_clock), DwfDigitalOutTypeCustom)
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_clock), c_int(int(hzSys.value/(2*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_clock), byref(rgbdata_clock), c_int(len(d_clock)))
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
 
 
-    
+    dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
+    time.sleep(0.005)
+
+
 
 
 

@@ -29,36 +29,12 @@ hdwf = device.open()
 # channel 3 - reset
 
 
-
-hdwf = c_int()
-
-version = create_string_buffer(16)
-dwf.FDwfGetVersion(version)
-print("DWF Version: "+str(version.value))
-
-
-print("Opening first device")
-dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
-
-if hdwf.value == 0:
-    print("failed to open device")
-    szerr = create_string_buffer(512)
-    dwf.FDwfGetLastErrorMsg(szerr)
-    print(str(szerr.value))
-    quit()
-
-
-data_for_led = [1 for i in range(63)]
-#dynamic_digital.led_matrix(hdwf,0,1,2)
-
-
-
-
-
+data_for_led = [1 for i in range(64)]
+dynamic_digital.led_matrix(hdwf,0,1,2,data_for_led)
 
 
 dwf.FDwfDigitalOutReset(hdwf)
-
+print(len(data_for_led))
 device.close(hdwf)
 
 

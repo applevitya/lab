@@ -12,11 +12,11 @@ import time
 import asyncio
 
 if sys.platform.startswith("win"):
-    dwf = ctypes.cdll.dwf
+    dwf = cdll.dwf
 elif sys.platform.startswith("darwin"):
-    dwf = ctypes.cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
+    dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
 else:
-    dwf = ctypes.cdll.LoadLibrary("libdwf.so")
+    dwf = cdll.LoadLibrary("libdwf.so")
 
 
     

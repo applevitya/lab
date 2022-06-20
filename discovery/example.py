@@ -20,7 +20,7 @@ else:
 
 
     
-hdwf = ctypes.c_int()
+hdwf = c_int()
 hdwf = device.open()
 
 # channel 0 - clock

@@ -29,12 +29,12 @@ hdwf = device.open()
 # channel 3 - reset
 
 
-data_for_led = [1 for i in range(64)]
+data_for_led = [0 for i in range(64)]
 dynamic_digital.led_matrix(hdwf,0,1,2,data_for_led)
 
 
 dwf.FDwfDigitalOutReset(hdwf)
-print(len(data_for_led))
+
 device.close(hdwf)
 
 

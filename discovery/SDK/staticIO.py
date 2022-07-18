@@ -124,3 +124,7 @@ def turn_off_channel(device_handle,channel):
 #Analog to digital
 
 
+
+
+
+

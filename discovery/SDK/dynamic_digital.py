@@ -2,7 +2,6 @@
 
 import sys
 from ctypes import *
-from SDK import staticIO
 from dwfconstants import DwfDigitalOutTypeCustom
 import time
 
@@ -46,29 +45,6 @@ def pulse(device_handle,channel,duration): #duration in s
 
 
 """-----------------------------------------------------------------------"""
-
-
-
-def led_matrix2(device_handle,shift,clock,data,matrix):
-    staticIO.turn_off_channel(device_handle,shift)
-    
-    for i in range(len(matrix)):
-        if bool(matrix[i]) == True:
-            staticIO.turn_on_channel(device_handle,data)
-            
-            staticIO.turn_on_channel(device_handle,clock)
-            staticIO.turn_off_channel(device_handle,clock)
-            staticIO.turn_off_channel(device_handle,data)
-        else:
-            staticIO.turn_on_channel(device_handle,data)
-            
-            staticIO.turn_on_channel(device_handle,clock)
-            staticIO.turn_off_channel(device_handle,clock)
-            staticIO.turn_off_channel(device_handle,data)
-            
-    staticIO.turn_on_channel(device_handle,shift)
-    return
-    
 
 
 def led_matrix(device_handle,shift,clock,data,matrix):
@@ -144,7 +120,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
 
     dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
-    time.sleep(0.5)
+    time.sleep(0.001)
 
     print(len(matrix))
     return

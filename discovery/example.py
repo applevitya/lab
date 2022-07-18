@@ -23,15 +23,20 @@ else:
 hdwf = c_int()
 hdwf = device.open()
 
-# channel 0 - clock
+# channel 0 - data
 # channel 1 - shift
-# channel 2 - data
-# channel 3 - reset
+# channel 2 -
 
 
-data_for_led = [0 for i in range(64)]
-dynamic_digital.led_matrix(hdwf,0,1,2,data_for_led)
 
+data1 = [1 for i in range(64)]
+data2 = [0 for i in range(64)]
+
+
+for i in range(100):
+    dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+    time.sleep(0.00005)
+    dynamic_digital.led_matrix(hdwf,1,2,0,data2)
 
 dwf.FDwfDigitalOutReset(hdwf)
 

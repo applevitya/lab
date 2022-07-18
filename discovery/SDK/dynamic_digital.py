@@ -121,8 +121,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
     dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
     time.sleep(0.001)
-
-    print(len(matrix))
+    
     return
 
 

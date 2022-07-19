@@ -90,7 +90,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
     pin_data = data
     pin_clock = clock
 
-    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.0000504)) # 1ms run
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.000756)) # 1ms run
     dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_shift), c_int(1))
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_shift), DwfDigitalOutTypeCustom)
@@ -99,7 +99,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
     dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_shift), byref(rgbdata_shift), c_int(len(d_shift)))
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
     ######
-    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.0000504)) # 1ms run
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.000756)) # 1ms run
     dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_data), c_int(1))
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_data), DwfDigitalOutTypeCustom)
@@ -109,7 +109,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
 
     ######
-    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.0000504)) # 1ms run
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(0.000756)) # 1ms run
     dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_clock), c_int(1))
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_clock), DwfDigitalOutTypeCustom)
@@ -120,7 +120,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
 
     dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
-    time.sleep(0.00)
+    time.sleep(0.0008)
     
     return
 

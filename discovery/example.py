@@ -33,10 +33,8 @@ data1 = [1 for i in range(64)]
 data2 = [0 for i in range(64)]
 
 
-for i in range(100):
-    dynamic_digital.led_matrix(hdwf,1,2,0,data1)
-    time.sleep(0.00005)
-    dynamic_digital.led_matrix(hdwf,1,2,0,data2)
+dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+
 
 dwf.FDwfDigitalOutReset(hdwf)
 

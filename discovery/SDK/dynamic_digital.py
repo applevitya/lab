@@ -95,7 +95,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_shift), DwfDigitalOutTypeCustom)
     dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
-    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_shift), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_shift), c_int(int(hzSys.value/(4*128e3)))) # set sample rate
     dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_shift), byref(rgbdata_shift), c_int(len(d_shift)))
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
     ######
@@ -104,7 +104,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_data), DwfDigitalOutTypeCustom)
     dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
-    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_data), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_data), c_int(int(hzSys.value/(4*128e3)))) # set sample rate
     dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_data), byref(rgbdata_data), c_int(len(data_new)))
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
 
@@ -114,7 +114,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_clock), DwfDigitalOutTypeCustom)
     dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
-    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_clock), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_clock), c_int(int(hzSys.value/(4*128e3)))) # set sample rate
     dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_clock), byref(rgbdata_clock), c_int(len(d_clock)))
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
 

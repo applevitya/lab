@@ -118,10 +118,8 @@ def turn_on_channel(device_handle,channel):
 def turn_off_channel(device_handle,channel):
     set_state(device_handle,channel,False)
 
-
 """-----------------------------------------------------------------------"""
 
-#Analog to digital
 
 
 

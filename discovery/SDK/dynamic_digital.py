@@ -17,21 +17,6 @@ else:
 hzSys = c_double()
 """-----------------------------------------------------------------------"""
 
-
-
-
-def rectangular_pulses(device_handle,channel,frequency): #freq in Hz
-    frequency = frequency/10
-    dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))
-    
-    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(channel), c_int(1)) #pulse on IO pin
-    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(channel), c_int(int(hzSys.value/2e1/frequency)))
-    dwf.FDwfDigitalOutCounterSet(device_handle, c_int(channel), c_int(1), c_int(1)) ## 1 tick low, 1 tick high
-    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(channel), c_int(1), c_int(0)) #начинать с high on start
-    return
-"""-----------------------------------------------------------------------"""
-
-
 def pulse(device_handle,channel,duration): #duration in s
     dwf.FDwfDigitalOutRunSet(device_handle, c_double(duration)) # second run
     dwf.FDwfDigitalOutRepeatSet(device_handle, c_int(1)) # once
@@ -40,9 +25,6 @@ def pulse(device_handle,channel,duration): #duration in s
     dwf.FDwfDigitalOutCounterSet(device_handle, c_int(channel), c_int(0), c_int(0)) # low/high count zero, no toggle during run
     dwf.FDwfDigitalOutEnableSet(device_handle, c_int(channel), c_int(1))
     return
-
-
-
 
 """-----------------------------------------------------------------------"""
 

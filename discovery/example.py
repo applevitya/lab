@@ -8,7 +8,6 @@ from ctypes import *
 from  SDK import staticIO, device, dynamic_digital
 import sys
 import time
-
 import asyncio
 
 if sys.platform.startswith("win"):
@@ -25,7 +24,7 @@ hdwf = device.open()
 
 # channel 0 - data
 # channel 1 - shift
-# channel 2 -
+# channel 2 - clock
 
 
 

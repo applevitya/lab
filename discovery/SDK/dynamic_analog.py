@@ -19,6 +19,10 @@ hzSys = c_double()
 
 
 
+#Analog to digital
+
+
+
 
 
  

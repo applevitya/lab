@@ -31,8 +31,12 @@ hdwf = device.open()
 data1 = [1 for i in range(64)]
 data2 = [0 for i in range(64)]
 
+datanew=[0 for i in range(64)]
+for i in range(64):
+    if i%2==0: datanew[i] = 1
+    else: datanew[i] = 0
 
-dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+dynamic_digital.led_matrix(hdwf,1,2,0,datanew)
 
 
 dwf.FDwfDigitalOutReset(hdwf)

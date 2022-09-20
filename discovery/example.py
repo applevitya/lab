@@ -36,7 +36,7 @@ for i in range(64):
     if i%2==0: datanew[i] = 1
     else: datanew[i] = 0
 
-dynamic_digital.led_matrix(hdwf,1,2,0,datanew)
+dynamic_digital.led_matrix(hdwf,1,2,0,data1)
 
 
 dwf.FDwfDigitalOutReset(hdwf)

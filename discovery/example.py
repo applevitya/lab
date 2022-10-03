@@ -42,7 +42,7 @@ dynamic_digital.led_matrix(hdwf,1,2,0,data1)
 dwf.FDwfDigitalOutReset(hdwf)
 
 
-print(dynamic_analog.measure(hdwf,1))
+#print(dynamic_analog.measure(hdwf,1))
 
 
 device.close(hdwf)

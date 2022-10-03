@@ -5,7 +5,7 @@
 """
 
 from ctypes import *
-from  SDK import staticIO, device, dynamic_digital
+from  SDK import staticIO, device, dynamic_digital, dynamic_analog
 import sys
 import time
 import asyncio
@@ -36,10 +36,14 @@ for i in range(64):
     if i%2==0: datanew[i] = 1
     else: datanew[i] = 0
 
-dynamic_digital.led_matrix(hdwf,1,2,0,datanew)
+dynamic_digital.led_matrix(hdwf,1,2,0,data1)
 
 
 dwf.FDwfDigitalOutReset(hdwf)
+
+
+#print(dynamic_analog.measure(hdwf,1))
+
 
 device.close(hdwf)
 

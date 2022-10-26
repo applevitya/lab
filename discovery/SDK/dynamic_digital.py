@@ -24,6 +24,9 @@ def pulse(device_handle,channel,duration): #duration in s
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(channel), c_int(1), c_int(0)) # initialize high on start
     dwf.FDwfDigitalOutCounterSet(device_handle, c_int(channel), c_int(0), c_int(0)) # low/high count zero, no toggle during run
     dwf.FDwfDigitalOutEnableSet(device_handle, c_int(channel), c_int(1))
+    dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
+    time.sleep(duration)
+
     return
 
 """-----------------------------------------------------------------------"""
@@ -106,7 +109,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
 
     dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
-    time.sleep(0.001)
+    time.sleep(0.0003)
     
     return
 

@@ -81,6 +81,13 @@ def osc(device_data,param, channel):
     
     return buffer,time
  
-
+ 
+ 
+def close(device_data):
+    """
+        reset the scope
+    """
+    dwf.FDwfAnalogInReset(device_data)
+    return
 
     

@@ -26,6 +26,8 @@ hdwf = device.open()
 # channel 1 - shift
 # channel 2 - clock
 
+t_start = time.process_time()
+
 
 
 data1 = [1 for i in range(64)]
@@ -36,15 +38,20 @@ for i in range(64):
     if i%2==0: datanew[i] = 1
     else: datanew[i] = 0
 
-dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+#dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+dynamic_digital.pulse(hdwf,5,0.002)
+dynamic_digital.pulse(hdwf,5,0.002)
+dynamic_digital.pulse(hdwf,5,0.002)
 
+print(time.process_time() - t_start)
+
+dynamic_analog.measure(hdwf,1)
+dynamic_analog.measure(hdwf,1)
+dynamic_analog.measure(hdwf,1)
+dynamic_analog.measure(hdwf,1)
+print(time.process_time() - t_start)
 
 dwf.FDwfDigitalOutReset(hdwf)
-
-
-#print(dynamic_analog.measure(hdwf,1))
-
-
 device.close(hdwf)
 
 

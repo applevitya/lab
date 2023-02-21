@@ -1,4 +1,6 @@
 import numpy as np
+from parameters import firing_delimeter
+import cv2
 
 def Poisson_generator(time,dt,rate, n, myseed=False):
   """
@@ -29,7 +31,16 @@ def Poisson_generator(time,dt,rate, n, myseed=False):
   u_rand = np.random.rand(n, Lt)
 
   # generate Poisson train
-  poisson_train = 1. * (u_rand < rate * (dt /300))
+  poisson_train = 1. * (u_rand < rate * (dt /firing_delimeter))
 
   return poisson_train
+
+def read_img():
+
+	img = cv2.imread("2.png", 0)
+	img2 = cv2.imread("2.png",0)
+
+	img = np.ndarray.flatten(img)
+	return img
+
 

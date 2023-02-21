@@ -17,3 +17,6 @@ init_refrac = 0
 noise = 0
 
 thresh = 0.001
+
+# encoding
+firing_delimeter =100

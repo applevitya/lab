@@ -9,10 +9,10 @@ num_out_neu = 2
 
 
 #  neuron par
-R = 1
+R = 0.10
 C = 1
 
-refrac_time = 0.15
+refrac_time = 0.12
 init_refrac = 0
 noise = 0
 
@@ -22,8 +22,10 @@ thresh = 0.001
 firing_delimeter =100
 
 # STDP
-A_plus = 0.4
+A_plus = 2
 A_minus = 1
 
-tau_minus = 8
-tau_plus = 8
+tau_minus = 2
+tau_plus = 2
+
+range_stdp = 50

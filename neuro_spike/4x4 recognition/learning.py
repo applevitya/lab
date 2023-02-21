@@ -1,19 +1,21 @@
 from neuron import LIF_simple
-from parameters import num_in_neu,num_out_neu
+from parameters import num_in_neu,num_out_neu, range_stdp
 from encoding import Poisson_generator, read_img
 from STDP import update
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.5,size = [17,2])
+W = np.random.uniform(0,0.1,size = [num_in_neu+1,num_out_neu])
 
 #################################
 # time series
 
-T = 200 #ms
+T = 100 #ms
 dt = 0.1
 time = np.arange(0,T+dt,dt)
 
@@ -33,7 +35,8 @@ for i in range(num_out_neu):
 
 for i in range(2,3):
 	img = read_img(str(i)+".png")
-
+	for l in range(num_in_neu):
+		in_spikes[l] = Poisson_generator(T, dt, 20 + img[l], 1)
 
 	I = np.zeros(shape=(num_in_neu,))
 	for t in range(len(time)):
@@ -64,5 +67,25 @@ for i in range(2,3):
 
 					neu.vprev = v
 
+		for i in range(num_in_neu):
+			for t1 in range(-1, range_stdp, -1):
+				if 0 <= t + t1 < len(time):
+					if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
+						W[i][j] = update(W[i][j], t1)
+			for t1 in range(1, range_stdp, 1):
+				if 0 <= t + t1 < len(time):
+					if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
+						W[i][j] = update(W[i][j], t1)
+		for j, neu in enumerate(out_neurons):
+			if out_spikes[j][t] != 1:
+				neu.vprev = neu.v_base
 
 
+###### testing ################
+
+data = W
+plt.imshow(data, cmap='plasma')
+plt.colorbar()
+
+
+plt.show()

@@ -44,3 +44,12 @@ def read_img(name_file):
 	return img
 
 
+def threshold(train):
+    tu = np.shape(train[0])[0]
+    thresh = 0
+    for i in range(tu):
+        simul_active = sum(train[:, i])
+        if simul_active > thresh:
+            thresh = simul_active
+
+    return (thresh / 3)

@@ -31,7 +31,7 @@ for i in range(num_out_neu):
 
 ##### learning ########
 
-for i in range(1,3):
+for i in range(2,3):
 	img = read_img(str(i)+".png")
 
 

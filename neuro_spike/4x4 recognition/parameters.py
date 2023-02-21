@@ -20,3 +20,10 @@ thresh = 0.001
 
 # encoding
 firing_delimeter =100
+
+# STDP
+A_plus = 0.4
+A_minus = 1
+
+tau_minus = 8
+tau_plus = 8

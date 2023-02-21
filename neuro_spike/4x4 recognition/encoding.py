@@ -35,10 +35,10 @@ def Poisson_generator(time,dt,rate, n, myseed=False):
 
   return poisson_train
 
-def read_img():
+def read_img(name_file):
 
-	img = cv2.imread("2.png", 0)
-	img2 = cv2.imread("2.png",0)
+	img = cv2.imread(name_file, 0)
+	img2 = cv2.imread(name_file,0)
 
 	img = np.ndarray.flatten(img)
 	return img

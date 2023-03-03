@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.1,size = [num_in_neu+1,num_out_neu])
+W = np.random.uniform(0,0.01,size = [num_in_neu,num_out_neu])
 
 #################################
 # time series
@@ -33,17 +33,18 @@ for i in range(num_out_neu):
 
 ##### learning ########
 
-for i in range(2,3):
-	img = read_img(str(i)+".png")
+for m in range(2,3):
+	img = read_img(str(m)+".png")
 	for l in range(num_in_neu):
-		in_spikes[l] = Poisson_generator(T, dt, 20 + img[l], 1)
+		in_spikes[l] = Poisson_generator(T, dt, 10 + img[l], 1)
 
 	I = np.zeros(shape=(num_in_neu,))
 	for t in range(len(time)):
 
 		for j,neu in enumerate(out_neurons):
+			I[j] = 0
 			for i in range(num_in_neu):
-				I[j] = 0
+				#I[j] = 0
 				I[j] += np.dot(W[i][j],in_spikes[i][t])
 
 
@@ -59,29 +60,29 @@ for i in range(2,3):
 					if v >= neu.v_thresh:
 						neu.num += 1
 						out_spikes[j][t] = 1
-						v += neu.v_spike
 						neu.initRefrac = t + neu.refracTime
 						v = neu.v_base
-						neu.v_thresh += 0.0001
+						neu.v_thresh += 0.01
+						neu.vprev = v
 						break
 
 					neu.vprev = v
 
-		for i in range(num_in_neu):
-			for t1 in range(-1, range_stdp, -1):
-				if 0 <= t + t1 < len(time):
-					if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
-						W[i][j] = update(W[i][j], t1)
-			for t1 in range(1, range_stdp, 1):
-				if 0 <= t + t1 < len(time):
-					if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
-						W[i][j] = update(W[i][j], t1)
+			for i in range(num_in_neu):
+				for t1 in range(-1, -range_stdp, -1):
+					if 0 <= t + t1 < len(time):
+						if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
+							W[i][j] = update(W[i][j], t1)
+				for t1 in range(1, range_stdp, 1):
+					if 0 <= t + t1 < len(time):
+						if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
+							W[i][j] = update(W[i][j], t1)
 		for j, neu in enumerate(out_neurons):
 			if out_spikes[j][t] != 1:
-				neu.vprev = neu.v_base
+				neu.vprev -= 0.01
 
 
-###### testing ################
+######### testing ################
 
 data = W
 plt.imshow(data, cmap='plasma')

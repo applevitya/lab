@@ -103,7 +103,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
     dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_clock), DwfDigitalOutTypeCustom)
     dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
-    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_clock), c_int(int(hzSys.value/(7*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_clock), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
     dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_clock), byref(rgbdata_clock), c_int(len(d_clock)))
     dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
 

@@ -41,16 +41,16 @@ for i in range(64):
 dynamic_digital.led_matrix(hdwf,1,2,0,data2)
 #dynamic_digital.pulse(hdwf,5,0.002)
 
-for j in range(400):
-	dynamic_digital.led_matrix(hdwf,1,2,0,data2)
-	time.sleep(0.00005)
-	dynamic_digital.led_matrix(hdwf,1,2,0,data2)
-	time.sleep(0.00005)
+for j in range(100):
+	dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+	time.sleep(0.005)
+	dynamic_digital.led_matrix(hdwf,1,2,0,data1)
+	time.sleep(0.005)
 
 
 dynamic_analog.measure(hdwf,1)
 
-print(time.process_time() - t_start)
+print(dynamic_analog.measure(hdwf,1))
 
 dwf.FDwfDigitalOutReset(hdwf)
 device.close(hdwf)

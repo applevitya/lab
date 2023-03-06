@@ -40,17 +40,8 @@ def led_matrix(device_handle,shift,clock,data,matrix):
     d_shift[193] = 1
 
 
-    data_new = [0]
-    for i in range(len(matrix)):
-        if matrix[i]==1:
-            for j in range(3): data_new.append(1)
-        else:
-            for k in range(3): data_new.append(0)
-
-    for i in range(len(matrix)):
-        d_clock.append(0)
-        d_clock.append(1)
-        d_clock.append(0)
+    data_new = [0] + [1 if matrix[i] == 1 else 0 for i in range(len(matrix)) for j in range(3)]
+    d_clock = [0]+[0, 1, 0] * len(matrix)
 
     hzSys = c_double()
     dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))

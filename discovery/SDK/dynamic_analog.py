@@ -90,4 +90,136 @@ def close(device_data):
     dwf.FDwfAnalogInReset(device_data)
     return
 
+
+
+
+def struct_measure(device_handle,shift,clock,data,matrix):
+	# Проверяем, что каждые 8 элементов содержат только одну единицу
+	for i in range(8):
+	    block =matrix[i*8 : (i+1)*8]
+	    if np.sum(block) > 1:
+	        # Количество единиц в блоке не равно 1 - завершаем программу с ошибкой
+	        raise ValueError("Ошибка: каждый блок по 8 элементов должен содержать только одну единицу. Потому что мы считываем за один такт только 1 структуру для каждого мультиплексора. То есть одновременно можно только 8")
+
+	# TRUTH TABLES for multiplex
+
+	# Создаем словарь
+	truth_tables = {}
+
+	# Задаем значения для атрибутов словаря
+	values = [[0,0,0], [1,0,0], [0,1,0], [1,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]]
+
+	# Заполняем словарь
+	for i in range(1, 9):
+	    truth_tables[i] = np.array(values[i-1])
+
+
+	shift_register = []
+
+	# Разбиваем массив на блоки по 8 элементов
+	blocks = [str_m[i:i+8] for i in range(0, len(str_m), 8)]
+
+	# Находим индекс места, где стоит 1, для каждого блока
+	for i, block in enumerate(blocks):
+	    index = block.index(1) if 1 in block else 1
+	    shift_register = np.append(shift_register,truth_tables[index+1])
+
+
+
+	# Разбиваем массив на блоки по 3 элемента и инвертируем значения внутри блоков
+	blocks = [np.flip(shift_register[i:i+3]) for i in range(0, len(shift_register), 3)]
+
+	# Инвертируем порядок блоков и их значения
+	shift_register = np.flip(blocks, axis=0)
+
+	# Объединяем блоки обратно в массив и выводим результат
+	matrix = list(np.concatenate(shift_register))
+
+
+	# загрузка на плату
+
+
+	d_shift = [0 for x in range(74)]
+    d_shift[73] = 1
+
+
+    data_new = [0] + [1 if matrix[i] == 1 else 0 for i in range(len(matrix)) for j in range(3)]
+	d_clock = [0]+[0, 1, 0] * len(matrix)
+
+
+	hzSys = c_double()
+    dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))
+
+    rgbdata_shift=(c_ubyte*((len(d_shift)+7)>>3))(0)
+    rgbdata_data=(c_ubyte*((len(data_new)+7)>>3))(0)
+    rgbdata_clock=(c_ubyte*((len(d_clock)+7)>>3))(0)
+
+    for i in range(len(d_shift)):
+        if d_shift[i] != 0:
+            rgbdata_shift[i>>3] |= 1<<(i&7)
+
+    for i in range(len(data_new)):
+        if data_new[i] != 0:
+            rgbdata_data[i>>3] |= 1<<(i&7)
+
+    for i in range(len(d_clock)):
+        if d_clock[i] != 0:
+            rgbdata_clock[i>>3] |= 1<<(i&7)
+
+    pin_shift = shift
+    pin_data = data
+    pin_clock = clock
     
+    duration_1 = 0.000252
+
+
+
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(duration_1)) # 1ms run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_shift), c_int(1))
+
+    dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_shift), DwfDigitalOutTypeCustom)
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_shift), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_shift), byref(rgbdata_shift), c_int(len(d_shift)))
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
+    ######
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(duration_1)) # 1ms run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_data), c_int(1))
+
+    dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_data), DwfDigitalOutTypeCustom)
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_data), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_data), byref(rgbdata_data), c_int(len(data_new)))
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
+
+    ######
+    dwf.FDwfDigitalOutRunSet(device_handle, c_double(duration_1)) # 1ms run
+    dwf.FDwfDigitalOutEnableSet(device_handle, c_int(pin_clock), c_int(1))
+
+    dwf.FDwfDigitalOutTypeSet(device_handle, c_int(pin_clock), DwfDigitalOutTypeCustom)
+    dwf.FDwfDigitalOutIdleSet(device_handle, c_int(0), c_int(1))
+    dwf.FDwfDigitalOutDividerSet(device_handle, c_int(pin_clock), c_int(int(hzSys.value/(6*128e3)))) # set sample rate
+    dwf.FDwfDigitalOutDataSet(device_handle, c_int(pin_clock), byref(rgbdata_clock), c_int(len(d_clock)))
+    dwf.FDwfDigitalOutCounterInitSet(device_handle, c_int(0), c_int(1), c_int(0)) # initialize high on start
+
+
+    dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
+    time.sleep(0.0003)
+    
+    return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+			    

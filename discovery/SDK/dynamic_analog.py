@@ -4,6 +4,7 @@ import sys
 from ctypes import *
 from dwfconstants import DwfDigitalOutTypeCustom
 import time
+import numpy as np
 
 """-----------------------------------------------------------------------"""
 
@@ -94,60 +95,45 @@ def close(device_data):
 
 
 def struct_measure(device_handle,shift,clock,data,matrix):
-	# Проверяем, что каждые 8 элементов содержат только одну единицу
-	for i in range(8):
+
+    for i in range(8):
 	    block =matrix[i*8 : (i+1)*8]
 	    if np.sum(block) > 1:
 	        # Количество единиц в блоке не равно 1 - завершаем программу с ошибкой
 	        raise ValueError("Ошибка: каждый блок по 8 элементов должен содержать только одну единицу. Потому что мы считываем за один такт только 1 структуру для каждого мультиплексора. То есть одновременно можно только 8")
 
-	# TRUTH TABLES for multiplex
 
-	# Создаем словарь
-	truth_tables = {}
+    truth_tables = {}
+    values = [[0,0,0], [1,0,0], [0,1,0], [1,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]]
 
-	# Задаем значения для атрибутов словаря
-	values = [[0,0,0], [1,0,0], [0,1,0], [1,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]]
-
-	# Заполняем словарь
-	for i in range(1, 9):
+    for i in range(1, 9):
 	    truth_tables[i] = np.array(values[i-1])
 
 
-	shift_register = []
+    shift_register = []
 
-	# Разбиваем массив на блоки по 8 элементов
-	blocks = [str_m[i:i+8] for i in range(0, len(str_m), 8)]
+    blocks = [matrix[i:i+8] for i in range(0, len(matrix), 8)]
 
-	# Находим индекс места, где стоит 1, для каждого блока
-	for i, block in enumerate(blocks):
-	    index = block.index(1) if 1 in block else 1
-	    shift_register = np.append(shift_register,truth_tables[index+1])
+    for i, block in enumerate(blocks):
+        index = block.index(1) if 1 in block else 0
+        shift_register = np.append(shift_register,truth_tables[index+1])
 
 
 
-	# Разбиваем массив на блоки по 3 элемента и инвертируем значения внутри блоков
-	blocks = [np.flip(shift_register[i:i+3]) for i in range(0, len(shift_register), 3)]
+    blocks = [np.flip(shift_register[i:i+3]) for i in range(0, len(shift_register), 3)]
 
-	# Инвертируем порядок блоков и их значения
-	shift_register = np.flip(blocks, axis=0)
+    shift_register = np.flip(blocks, axis=0)
 
-	# Объединяем блоки обратно в массив и выводим результат
-	matrix = list(np.concatenate(shift_register))
+    matrix = list(np.concatenate(shift_register))
 
-
-	# загрузка на плату
-
-
-	d_shift = [0 for x in range(74)]
+    d_shift = [0 for x in range(74)]
+    d_shift[0] = 0
     d_shift[73] = 1
 
-
     data_new = [0] + [1 if matrix[i] == 1 else 0 for i in range(len(matrix)) for j in range(3)]
-	d_clock = [0]+[0, 1, 0] * len(matrix)
+    d_clock = [0]+[0, 1, 0] * len(matrix)
 
-
-	hzSys = c_double()
+    hzSys = c_double()
     dwf.FDwfDigitalOutInternalClockInfo(device_handle, byref(hzSys))
 
     rgbdata_shift=(c_ubyte*((len(d_shift)+7)>>3))(0)
@@ -169,8 +155,8 @@ def struct_measure(device_handle,shift,clock,data,matrix):
     pin_shift = shift
     pin_data = data
     pin_clock = clock
-    
-    duration_1 = 0.000252
+
+    duration_1 = 0.000097
 
 
 
@@ -204,7 +190,7 @@ def struct_measure(device_handle,shift,clock,data,matrix):
 
 
     dwf.FDwfDigitalOutConfigure(device_handle, c_int(1))
-    time.sleep(0.0003)
+    time.sleep(0.001)
     
     return
 

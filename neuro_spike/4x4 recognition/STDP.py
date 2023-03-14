@@ -32,7 +32,4 @@ def update(w, t):
 
 
 
-I = np.zeros(shape=(16,))
-
-print(I)
 

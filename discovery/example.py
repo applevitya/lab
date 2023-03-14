@@ -38,21 +38,22 @@ for i in range(64):
     if i%2==0: datanew[i] = 1
     else: datanew[i] = 0
 
-dynamic_digital.led_matrix(hdwf,1,2,0,data2)
-#dynamic_digital.pulse(hdwf,5,0.002)
+#dynamic_digital.led_matrix(hdwf,1,2,0,data2) #led_matrix(device_handle,shift,clock,data,matrix):
 
-"""
-for j in range(100):
-	dynamic_digital.led_matrix(hdwf,1,2,0,data1)
-	time.sleep(0.005)
-	dynamic_digital.led_matrix(hdwf,1,2,0,data1)
-	time.sleep(0.005)
-"""
+
+
+for j in range(30):
+	dynamic_digital.led_matrix(hdwf,1,2,0,data2)
+	time.sleep(0.05)
+	dynamic_digital.led_matrix(hdwf,1,2,0,data2)
+	time.sleep(0.05)
+
 
 #dynamic_analog.measure(hdwf,1)
-data2[1] = 1
-dynamic_analog.struct_measure(hdwf,4,5,6,data2)
+data2[7] = 1
+dynamic_analog.struct_measure(hdwf,4,5,6,data2)  #struct_measure(device_handle,shift,clock,data,matrix):
 
+print(dynamic_analog.measure(hdwf,1))
 dwf.FDwfDigitalOutReset(hdwf)
 device.close(hdwf)
 

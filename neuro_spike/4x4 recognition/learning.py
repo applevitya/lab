@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.1,size = [num_in_neu,num_out_neu])
+W = np.random.uniform(0,0.5,size = [num_in_neu,num_out_neu])
 #W = np.ones((num_in_neu,num_out_neu))*0.01
 
 #################################
@@ -38,10 +38,10 @@ for ep in range(epochs):
 		a = LIF_simple()
 		out_neurons.append(a)
 
-	for m in range(1,2):
+	for m in range(1,3):
 		img = read_img(str(m)+".png")
 		for l in range(num_in_neu):
-			in_spikes[l] = Poisson_generator(T, dt, 4 + img[l], 1)
+			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
 
 		I = np.zeros(shape=(num_out_neu,))
 		for t in range(len(time)):
@@ -67,8 +67,9 @@ for ep in range(epochs):
 							out_spikes[j][t] = 1
 							neu.initRefrac = t + neu.refracTime
 							v = neu.v_base
-							neu.v_thresh += 0.0012
+							neu.v_thresh += 0.001
 							neu.vprev = v
+							neu.vprev = 0.00
 							break
 
 						neu.vprev = v
@@ -85,6 +86,7 @@ for ep in range(epochs):
 			for j, neu in enumerate(out_neurons):
 				if out_spikes[j][t] != 1:
 					neu.vprev = 0.00
+					continue
 
 
 

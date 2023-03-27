@@ -38,7 +38,7 @@ for ep in range(epochs):
 		a = LIF_simple()
 		out_neurons.append(a)
 
-	for m in range(1,3):
+	for m in range(1,2):
 		img = read_img(str(m)+".png")
 		for l in range(num_in_neu):
 			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
@@ -67,7 +67,7 @@ for ep in range(epochs):
 							out_spikes[j][t] = 1
 							neu.initRefrac = t + neu.refracTime
 							v = neu.v_base
-							neu.v_thresh += 0.001
+							neu.v_thresh += 0.002
 							neu.vprev = v
 							neu.vprev = 0.00
 							break

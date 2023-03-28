@@ -1,147 +1,123 @@
-from ctypes import *
-import tkinter as tk
-from  SDK import staticIO, device, dynamic_digital, dynamic_analog
-import sys
-import time
-import asyncio
-import matplotlib.pyplot as plt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QLabel, QGridLayout
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor
+from PyQt5.QtCore import QTimer, Qt
 import numpy as np
-from IPython.display import clear_output
-from collections import defaultdict
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+class GradientPlot(QWidget):
+    def __init__(self, measure_function, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.measure_function = measure_function
+        self.values = np.zeros((8, 8))
+        self.legend = QLabel(self)
+        self.legend.setGeometry(700, 20, 100, 400)
+        self.legend.setStyleSheet("font-size: 12px")
+        self.legend_values = np.linspace(0, 1, 11)
 
-if sys.platform.startswith("win"):
-    dwf = cdll.dwf
-elif sys.platform.startswith("darwin"):
-    dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
-else:
-    dwf = cdll.LoadLibrary("libdwf.so")
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_values)
+        self.timer.start(500)
 
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        w, h = self.width(), self.height()
+        cell_w, cell_h = w // 8, h // 8
+        for i in range(8):
+            for j in range(8):
+                value = self.values[i, j]
+                color = self.get_color(value)
+                painter.setBrush(QBrush(QColor(*color)))
+                painter.setPen(QPen(Qt.NoPen))
+                painter.drawRect(i * cell_w, j * cell_h, cell_w, cell_h)
 
-#### Открываем устройство  #######  
-hdwf = c_int()
-hdwf = device.open()
+        for i, value in enumerate(self.legend_values):
+            color = self.get_color(value)
+            painter.setBrush(QBrush(QColor(*color)))
+            painter.setPen(QPen(Qt.NoPen))
+            painter.drawRect(700, 40 + i * 30, 30, 30)
+            painter.setPen(QPen(Qt.black))
+            painter.drawText(740, 60 + i * 30, "{:.2f}".format(value))
 
+    def get_color(self, value):
+        r = int(value * 255)
+        g = int((1-value) * 255)
+        b = 0
+        return (r, g, b)
 
+    def update_values(self):
+        for i in range(8):
+            for j in range(8):
+                self.values[i, j] = self.measure_function()
+        self.update()
 
-##### задаем положительное напряжение #############
+class LinePlot(QWidget):
+    def __init__(self, measure_function, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.measure_function = measure_function
+        self.values = []
 
-#channel 0,1,2,3,4
-for i in range(5):
-    staticIO.turn_on_channel(hdwf, i)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_values)
+        self.timer.start(500)
 
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        w, h = self.width(), self.height()
+        painter.setBrush(QBrush(Qt.white))
+        painter.setPen(QPen(Qt.black, 2))
+        painter.drawRect(0, 0, w-1, h-1)
 
-### led pins
-l_1 = 5 #data pin led
-l_2 = 6 # shift pin led
-l_3 = 7 # clock pin led
+        if len(self.values) > 1:
+            painter.setPen(QPen(Qt.blue, 2))
+            x_scale = (w-20) / (len(self.values)-1)
+            y_scale = (h-20) / 2
+            last_x, last_y = None, None
+            for i, value in enumerate(self.values):
+                x = 10 + i * x_scale
+                y = h - 10 - value * y_scale
+                if last_x is not None:
+                    painter.drawLine(last_x, last_y, x, y)
+                last_x, last_y = x, y
 
-### struct pins
-s_1 =1 # shift
-s_2 =1 # clock 
-s_3 =1 # data
+    def update_values(self):
+        self.values.append(self.measure_function())
+        if len(self.values) > (self.width() - 20):
+            self.values.pop(0)
+        self.update()
 
-class RealTimePlot:
-    def __init__(self, root, title, xlabel, ylabel, ymin, ymax):
-        self.title = title
-        self.xlabel = xlabel
-        self.ylabel = ylabel
-        self.ymin = ymin
-        self.ymax = ymax
+class MainWindow(QMainWindow):
+    def __init__(self, measure_function, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.measure_function = measure_function
+        self.setWindowTitle("Real-time Plotting")
+        self.setGeometry(100, 100, 1000, 1000)
 
-        self.fig, self.ax = plt.subplots()
-        self.ax.set_title(self.title)
-        self.ax.set_xlabel(self.xlabel)
-        self.ax.set_ylabel(self.ylabel)
-        self.ax.set_ylim([self.ymin, self.ymax])
-        self.ax.grid(True)
-        self.line, = self.ax.plot([], [])
+        self.gradient_plot = GradientPlot(measure_function, self)
+        self.gradient_plot.setGeometry(0, 0, 200, 200)
 
-    def update(self, x, y):
-        self.line.set_data(x, y)
-        self.ax.relim()
-        self.ax.autoscale_view(True, True, True)
-        self.fig.canvas.draw()
+        self.line_plot1 = LinePlot(measure_function, self)
+        self.line_plot1.setGeometry(50, 750, 400, 200)
 
-class App:
-    def __init__(self, root):
-        # инициализируем графики
-        self.plot1 = RealTimePlot(root, "График 1", "Время", "Значение", -10, 10)
-        self.plot2 = RealTimePlot(root, "График 2", "Время", "Значение", -10, 10)
-        self.plot3 = RealTimePlot(root, "График 3", "Время", "Значение", -10, 10)
-        self.plot4 = RealTimePlot(root, "График 4", "Время", "Значение", -10, 10)
+        self.line_plot2 = LinePlot(measure_function, self)
+        self.line_plot2.setGeometry(550, 750, 400, 200)
 
-        # создаем кнопки для управления устройством Analog Discovery 2
-        self.button1 = tk.Button(root, text="Запустить паттерн 1", command=self.pattern1)
-        self.button2 = tk.Button(root, text="Запустить паттерн 2", command=self.pattern2)
-        self.button3 = tk.Button(root, text="Запустить паттерн 3", command=self.pattern3)
-        self.button4 = tk.Button(root, text="Запустить паттерн 4", command=self.pattern4)
-        self.quit_button = tk.Button(root, text="Выход", command=root.quit)
+        self.quit_button = QPushButton("Quit", self)
+        self.quit_button.setGeometry(50, 950, 150, 50)
+        self.quit_button.clicked.connect(self.quit)
 
-        # располагаем элементы на окне
-        self.plot1.ax.set_position([0.05, 0.05, 0.4, 0.4])
-        self.plot2.ax.set_position([0.55, 0.05, 0.4, 0.4])
-        self.plot3.ax.set_position([0.05, 0.55, 0.4, 0.4])
-        self.plot4.ax.set_position([0.55, 0.55, 0.4, 0.4])
-        self.button1.place(relx=0.05, rely=0.47, anchor="w")
-        self.button2.place(relx=0.45, rely=0.47, anchor="w")
-        self.button3.place(relx=0.05, rely=0.97, anchor="w")
-        self.button4.place(relx=0.45, rely=0.97, anchor="w")
-        self.quit_button.place(relx=0.95, rely=0.95, anchor="se")
+        self.function_button = QPushButton("Function", self)
+        self.function_button.setGeometry(250, 950, 150, 50)
+        # self.function_button.clicked.connect(self.measure_function)
 
-        # запускаем измерение и обновление графиков в отдельном потоке
-        self.is_running = True
-        self.update_thread()
-    def update_thread(self):
-        while self.is_running: #считываем значения с устройства Analog Discovery 2
-            struct_index: list[int] = [0 for i in range(64)]
-            struct_index[21] = 1
-            dynamic_analog.struct_measure(hdwf,s_1,s_2,s_3,struct_index)
-            data1 = dynamic_analog.measure(hdwf,1)
-            data2 = 0
-            data3 = 0
-            data4 = 0
-            # обновляем графики
-            self.plot1.update(data1[:, 0], data1[:, 1])
-            self.plot2.update(data2[:, 0], data2[:, 1])
-            self.plot3.update(data3[:, 0], data3[:, 1])
-            self.plot4.update(data4[:, 0], data4[:, 1])
-            # задержка для обновления графиков
-            time.sleep(0.05)
+        self.show()
 
-    def pattern1(self):
-        # отправляем команду на устройство Analog Discovery 2
-        led_on = [1 for i in range(64)]
-        dynamic_digital.led_matrix(hdwf, l_2, l_3, l_1, led_on)
-        time.sleep(0.005)
-        print('отправили 1 паттерн')
-        
+    def quit(self):
+        QApplication.quit()
 
-    def pattern2(self):
-        # отправляем команду на устройство Analog Discovery 2
-        print('отправили 2 паттерн')
-
-    def pattern3(self):
-        # отправляем команду на устройство Analog Discovery 2
-        print('отправили 3 паттерн')
-
-    def pattern4(self):
-        # отправляем команду на устройство Analog Discovery 2
-        print('отправили 4 паттерн')
-
+def measure():
+    return np.random.randint(0,100)
 
 if __name__ == "__main__":
-    # создаем окно Tkinter
-    root = tk.Tk()
-    root.title("Real-Time Plotting with Analog Discovery 2")
-    root.geometry("800x600")
+    app = QApplication([])
+    main_window = MainWindow(measure)
+    app.exec_()
 
-    # запускаем приложение
-    app = App(root)
-
-    # запускаем главный цикл обработки событий Tkinter
-    root.mainloop()
-
-    # останавливаем измерение и обновление графиков
-    app.is_running = False

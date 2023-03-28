@@ -32,6 +32,7 @@ dynamic_analog.struct_measure(hdwf, 4, 5, 6, struct_index) # struct_measure(devi
 def measure():
     return dynamic_analog.measure(hdwf,1)
 
+
 def some_function():
     print("Выполняется функция, не связанная с графиком")
 

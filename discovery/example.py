@@ -9,6 +9,7 @@ from  SDK import staticIO, device, dynamic_digital, dynamic_analog
 import sys
 import time
 import asyncio
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 if sys.platform.startswith("win"):
     dwf = cdll.dwf
@@ -22,40 +23,39 @@ else:
 hdwf = c_int()
 hdwf = device.open()
 
-# channel 0 - data
-# channel 1 - shift
-# channel 2 - clock
+
 
 t_start = time.process_time()
 
+###### задаем положительное напряжение для управления и питания.##########
+staticIO.turn_on_channel(hdwf,0)
+staticIO.turn_on_channel(hdwf,1)
+staticIO.turn_on_channel(hdwf,2)
+staticIO.turn_on_channel(hdwf,3)
+staticIO.turn_on_channel(hdwf,4)
+###############################################
 
 
-data1 = [1 for i in range(64)]
-data2 = [0 for i in range(64)]
+led_off = [0 for i in range(64)]
+led_on = [1 for i in range(64)]
 
-datanew=[0 for i in range(64)]
-for i in range(64):
-    if i%2==0: datanew[i] = 1
-    else: datanew[i] = 0
+dynamic_digital.led_matrix(hdwf,6,7 ,5,led_off)
+time.sleep(0.02)
 
-#dynamic_digital.led_matrix(hdwf,1,2,0,data2) #led_matrix(device_handle,shift,clock,data,matrix):
+for i in range(100):
+    dynamic_digital.led_matrix(hdwf,6,7,5,led_off)
+    time.sleep(0.02)
+    dynamic_digital.led_matrix(hdwf,6,7,5,led_on)
+    time.sleep(0.02)
 
-
-
-for j in range(30):
-	dynamic_digital.led_matrix(hdwf,1,2,0,data2)
-	time.sleep(0.05)
-	dynamic_digital.led_matrix(hdwf,1,2,0,data2)
-	time.sleep(0.05)
+dynamic_digital.led_matrix(hdwf,6,7,5,led_on)
 
 
-#dynamic_analog.measure(hdwf,1)
-data2[7] = 1
-dynamic_analog.struct_measure(hdwf,4,5,6,data2)  #struct_measure(device_handle,shift,clock,data,matrix):
 
-print(dynamic_analog.measure(hdwf,1))
-dwf.FDwfDigitalOutReset(hdwf)
-device.close(hdwf)
+
+
+
+
 
 
 

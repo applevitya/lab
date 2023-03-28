@@ -51,6 +51,7 @@ def measure():
 
 
 def some_function():
+    
     print("Выполняется функция, не связанная с графиком")
 
 def close():

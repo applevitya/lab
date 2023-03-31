@@ -86,8 +86,48 @@ def update_graphs():
 def stop():
     global stop_graph
     stop_graph = True
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     close()
     root.quit()
+
+
+###########################################
+
+def alignment(position):
+
+    # Создаем массив значений
+    value = np.zeros(64)
+    values = [measure(i) for i in range(len(position)) if position[i] == 1]
+
+    # Находим максимальное значение и индекс элемента с максимальным значением
+    max_value = np.max(value[position == 1])
+    max_index = np.argmax(value[position == 1])
+
+    # Первоначально все элементы не меняем
+    array = np.zeros(64)
+
+    # Устанавливаем 0 на месте элемента с максимальным значением, чтобы его не менять
+    array[position == 1][max_index] = 0
+
+    # Пока все значения не сравняются с точностью +-0.015 для самого большого изначального числа
+    while np.any(np.abs(value[position == 1] - max_value) > 0.25):
+        # Устанавливаем 1 на месте элементов, которые необходимо изменить
+        array[position == 1][np.abs(value[position == 1] - max_value) > 0.25] = 1
+
+        # Запускаем функцию изменения параметров элементов
+        dynamic_digital.led_matrix(hdwf, 6, 7, 5, array)
+
+        # Ждем некоторое время, чтобы изменения успели примениться
+        time.sleep(0.1)
+        dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
+
+        # Считываем новые значения
+        values = [measure(i) for i in range(len(position)) if position[i] == 1]
+
+    return value
+
+############################################
+
 
 root = tk.Tk()
 root.title("Tkinter и Matplotlib")

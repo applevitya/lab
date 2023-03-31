@@ -18,6 +18,8 @@ elif sys.platform.startswith("darwin"):
 else:
     dwf = cdll.LoadLibrary("libdwf.so")
 
+
+##### инициализирование############################################
 hdwf = c_int()
 hdwf = device.open()
 
@@ -30,9 +32,15 @@ struct_index = [0 for i in range(64)]
 struct_index[20] = 1
 dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
 
-def measure():
+
+####################################################################
+
+def measure(index):
+    struct_index = [0 for i in range(64)]
+    struct_index[index-1] = 1
+    dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(100):
+    for i in range(50):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
@@ -51,10 +59,10 @@ def update_graphs():
 
     if not stop_graph:
         x.append(counter)
-        y1.append(measure())
-        y2.append(measure())
-        y3.append(measure())
-        y4.append(measure())
+        y1.append(measure(21))
+        y2.append(measure(22))
+        y3.append(measure(21))
+        y4.append(measure(22))
         counter += 1
 
         lines1.set_data(x, y1)
@@ -101,8 +109,8 @@ lines3, = ax3.plot([], [], lw=2)
 lines4, = ax4.plot([], [], lw=2)
 ax1.set_title("21 место")
 ax2.set_title(" 22 место")
-ax3.set_title("21 место")
-ax4.set_title(" 22 место")
+ax3.set_title("23 место")
+ax4.set_title(" 24 место")
 
 
 canvas = FigureCanvasTkAgg(fig, root)

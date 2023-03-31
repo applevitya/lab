@@ -40,7 +40,7 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(50):
+    for i in range(60):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
@@ -61,8 +61,8 @@ def update_graphs():
         x.append(counter)
         y1.append(measure(21))
         y2.append(measure(22))
-        y3.append(measure(21))
-        y4.append(measure(22))
+        y3.append(measure(28))
+        y4.append(measure(29))
         counter += 1
 
         lines1.set_data(x, y1)
@@ -81,7 +81,7 @@ def update_graphs():
 
         canvas.draw()
 
-        root.after(50, update_graphs)
+        root.after(10, update_graphs)
 
 def stop():
     global stop_graph
@@ -120,5 +120,5 @@ x, y1, y2, y3,y4 = [], [], [],[],[]
 counter = 0
 stop_graph = False
 
-root.after(50, update_graphs)
+root.after(10, update_graphs)
 root.mainloop()

@@ -45,8 +45,10 @@ def measure(index):
     return sum(values) / len(values)
 
 def some_function():
+    position = np.zeros(64)
+    position[19] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(0.5)
+    time.sleep(50)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, не связанная с графиком")
 
@@ -93,15 +95,19 @@ def stop():
 
 ###########################################
 
-def alignment(position):
-
+def alignment():
+    print('aligment start')
+    position = np.zeros(64)
+    position[20] = position[21] = 1
     # Создаем массив значений
     value = np.zeros(64)
-    values = [measure(i+1) for i in range(len(position)) if position[i] == 1]
+    values = [measure(i + 1) for i in range(len(position)) if position[i] == 1]
+    value[position == 1] = values
+    print(value[20])
 
     # Находим максимальное значение и индекс элемента с максимальным значением
-    max_value = np.max(value[position == 1])
-    max_index = np.argmax(value[position == 1])
+    max_value = np.max(values)
+    max_index = np.argmax(values)
 
     # Первоначально все элементы не меняем
     array = np.zeros(64)
@@ -112,23 +118,23 @@ def alignment(position):
     # Пока все значения не сравняются с точностью +-0.015 для самого большого изначального числа
     while np.any(np.abs(value[position == 1] - max_value) > 0.25):
         # Устанавливаем 1 на месте элементов, которые необходимо изменить
-        array[position == 1][np.abs(value[position == 1] - max_value) > 0.25] = 1
+        array[position == 1] = np.where(np.abs(value[position == 1] - max_value) > 0.10, 1, array[position == 1])
+        print(array)
 
         # Запускаем функцию изменения параметров элементов
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, array)
 
         # Ждем некоторое время, чтобы изменения успели примениться
-        time.sleep(0.1)
+        time.sleep(1)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
-        # Считываем новые значения
-        values = [measure(i+1) for i in range(len(position)) if position[i] == 1]
+        # Считываем новые значения и обновляем массив значений
+        values = [measure(i + 1) for i in range(len(position)) if position[i] == 1]
+        value[position == 1] = values
 
     return value
 
 ############################################
-position = [0] * 64
-position[20] = position[21] = 1
 
 root = tk.Tk()
 root.title("Tkinter и Matplotlib")
@@ -137,7 +143,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=alignment(position))
+btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=some_function)
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

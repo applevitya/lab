@@ -97,7 +97,7 @@ def alignment(position):
 
     # Создаем массив значений
     value = np.zeros(64)
-    values = [measure(i) for i in range(len(position)) if position[i] == 1]
+    values = [measure(i+1) for i in range(len(position)) if position[i] == 1]
 
     # Находим максимальное значение и индекс элемента с максимальным значением
     max_value = np.max(value[position == 1])
@@ -122,12 +122,13 @@ def alignment(position):
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
         # Считываем новые значения
-        values = [measure(i) for i in range(len(position)) if position[i] == 1]
+        values = [measure(i+1) for i in range(len(position)) if position[i] == 1]
 
     return value
 
 ############################################
-
+position = [0] * 64
+position[20] = position[21] = 1
 
 root = tk.Tk()
 root.title("Tkinter и Matplotlib")
@@ -136,7 +137,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=some_function)
+btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=alignment(position))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

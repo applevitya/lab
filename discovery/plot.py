@@ -46,9 +46,9 @@ def measure(index):
 
 def some_function():
     position = np.zeros(64)
-    position[19] = 1
-    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(50)
+    position[2] = 1
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(position))
+    time.sleep(5)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, не связанная с графиком")
 

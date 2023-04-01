@@ -27,28 +27,31 @@ hdwf = device.open()
 
 t_start = time.process_time()
 
-###### задаем положительное напряжение для управления и питания.##########
-staticIO.turn_on_channel(hdwf,0)
-staticIO.turn_on_channel(hdwf,1)
-staticIO.turn_on_channel(hdwf,2)
-staticIO.turn_on_channel(hdwf,3)
-staticIO.turn_on_channel(hdwf,4)
+
 ###############################################
 
 
 led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
+position = [0 for i in range(64)]
+position[63] =1
 
-dynamic_digital.led_matrix(hdwf,6,7 ,5,led_off)
+
+
+dynamic_digital.led_matrix(hdwf,6,7,5,led_off)
 time.sleep(0.02)
 
-for i in range(100):
+for i in range(10):
     dynamic_digital.led_matrix(hdwf,6,7,5,led_off)
-    time.sleep(0.02)
-    dynamic_digital.led_matrix(hdwf,6,7,5,led_on)
-    time.sleep(0.02)
+    time.sleep(0.05)
+    dynamic_digital.led_matrix(hdwf,6,7,5,position)
+    time.sleep(0.05)
 
-dynamic_digital.led_matrix(hdwf,6,7,5,led_on)
+dynamic_digital.led_matrix(hdwf,6,7,5,position)
+
+device.close(hdwf)
+
+
 
 
 

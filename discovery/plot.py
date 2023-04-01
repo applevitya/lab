@@ -33,7 +33,13 @@ struct_index[20] = 1
 dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
 
 
+
 ####################################################################
+
+
+
+
+
 
 def measure(index):
     struct_index = [0 for i in range(64)]

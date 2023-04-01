@@ -38,7 +38,7 @@ def led_matrix(device_handle,shift,clock,data,matrix):
 
     d_shift[0] = 0
     d_shift[193] = 1
-
+    matrix = matrix[::-1]
 
     data_new = [0] + [1 if matrix[i] == 1 else 0 for i in range(len(matrix)) for j in range(3)]
     d_clock = [0]+[0, 1, 0] * len(matrix)

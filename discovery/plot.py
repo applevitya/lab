@@ -54,7 +54,7 @@ def some_function():
     position = np.zeros(64)
     position[2] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(0.5)
+    time.sleep(50)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, не связанная с графиком")
 
@@ -120,11 +120,11 @@ def alignment():
 
 
     # Пока все значения не сравняются с точностью +-0.015 для самого большого изначального числа
-    while np.any(np.abs(value[position == 1] - max_value) > 0.05):
-    	array = np.zeros(64)
-    	array[position == 1][max_index] = 0
+    while np.any(np.abs(value[position == 1] - max_value) > 0.01):
+        array = np.zeros(64)
+        array[position == 1][max_index] = 0
         # Устанавливаем 1 на месте элементов, которые необходимо изменить
-        array[position == 1] = np.where(np.abs(value[position == 1] - max_value) > 0.05, 1, array[position == 1])
+        array[position == 1] = np.where(np.abs(value[position == 1] - max_value) > 0.01, 1, array[position == 1])
         array = array.reshape((8,8))
         array = np.flip(array,axis=1)
         array = array.reshape((64,))
@@ -135,7 +135,7 @@ def alignment():
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(array))
 
         # Ждем некоторое время, чтобы изменения успели примениться
-        time.sleep(0.005)
+        time.sleep(0.0005)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
         # Считываем новые значения и обновляем массив значений
@@ -153,7 +153,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: alignment())
+btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: some_function())
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

@@ -34,7 +34,7 @@ t_start = time.process_time()
 led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
 position = [0 for i in range(64)]
-position[63] =1
+position[0] =1
 
 
 
@@ -43,9 +43,9 @@ time.sleep(0.02)
 
 for i in range(10):
     dynamic_digital.led_matrix(hdwf,6,7,5,led_off)
-    time.sleep(0.05)
+    time.sleep(0.04)
     dynamic_digital.led_matrix(hdwf,6,7,5,position)
-    time.sleep(0.05)
+    time.sleep(0.04)
 
 dynamic_digital.led_matrix(hdwf,6,7,5,position)
 

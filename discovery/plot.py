@@ -115,14 +115,14 @@ def alignment():
     max_value = np.max(values)
     max_index = np.argmax(values)
 
-    # Первоначально все элементы не меняем
-    array = np.zeros(64)
 
-    # Устанавливаем 0 на месте элемента с максимальным значением, чтобы его не менять
-    array[position == 1][max_index] = 0
+
+
 
     # Пока все значения не сравняются с точностью +-0.015 для самого большого изначального числа
     while np.any(np.abs(value[position == 1] - max_value) > 0.05):
+    	array = np.zeros(64)
+    	array[position == 1][max_index] = 0
         # Устанавливаем 1 на месте элементов, которые необходимо изменить
         array[position == 1] = np.where(np.abs(value[position == 1] - max_value) > 0.05, 1, array[position == 1])
         array = array.reshape((8,8))
@@ -135,7 +135,7 @@ def alignment():
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(array))
 
         # Ждем некоторое время, чтобы изменения успели примениться
-        time.sleep(0.01)
+        time.sleep(0.005)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
         # Считываем новые значения и обновляем массив значений

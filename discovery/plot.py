@@ -164,23 +164,25 @@ def weight_setting(arr):
     value = []
     for i, val in enumerate(arr):
         if val != 0:
-            value.append(measure(i))
+            value.append(measure(i+1))
         else:
             value.append(0)
             
     while any(abs(a - b) > 0.01 for a, b in zip(arr, value)):
         led = [int(abs(a - b) > 0.01) for a, b in zip(arr, value)]
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led)
-        time.sleep()
+        time.sleep(0.005)
+        dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
         
         for i, val in enumerate(arr):
             if val != 0:
-                value[i] = measure(i)
+                value[i] = measure(i+1)
     return value
 
 
 
-
+weights = [0]*64
+weights[19] = 1
 ############################################
 
 root = tk.Tk()
@@ -190,7 +192,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: some_function())
+btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: weight_setting(weights))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

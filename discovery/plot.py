@@ -54,7 +54,7 @@ def some_function():
     position = np.zeros(64)
     position[2] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(50)
+    time.sleep(60)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, не связанная с графиком")
 
@@ -69,8 +69,8 @@ def update_graphs():
         x.append(counter)
         y1.append(measure(21))
         y2.append(measure(22))
-        y3.append(measure(28))
-        y4.append(measure(29))
+        y3.append(measure(23))
+        y4.append(measure(24))
         counter += 1
 
         lines1.set_data(x, y1)
@@ -104,7 +104,7 @@ def stop():
 def alignment():
     print('aligment start')
     position = np.zeros(64)
-    position[20] = position[21] = 1
+    position[20] = position[21] =position[22]=position[23]= 1
     # Создаем массив значений
     value = np.zeros(64)
     values = [measure(i + 1) for i in range(len(position)) if position[i] == 1]

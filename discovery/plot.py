@@ -57,7 +57,7 @@ def some_function():
     position = np.zeros(64)
     position[2] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(0.005)
+    time.sleep(0.00150)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, не связанная с графиком")
 
@@ -165,7 +165,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: alignment())
+btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: some_function())
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

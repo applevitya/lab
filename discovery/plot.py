@@ -28,12 +28,6 @@ led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем светодиоды
 
-struct_index = [0 for i in range(64)]
-struct_index[20] = 1
-dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
-
-
-
 ####################################################################
 
 
@@ -46,15 +40,24 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(70):
+    for i in range(100):
         values.append(dynamic_analog.measure(hdwf, 1))
+    return sum(values) / len(values)
+
+def measure_2(index):
+    struct_index = [0 for i in range(64)]
+    struct_index[index-1] = 1
+    dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
+    values = []
+    for i in range(70):
+        values.append(dynamic_analog.measure(hdwf, 2))
     return sum(values) / len(values)
 
 def some_function():
     position = np.zeros(64)
     position[2] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(60)
+    time.sleep(0.005)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, не связанная с графиком")
 
@@ -63,7 +66,7 @@ def close():
     print("Закрытие программы")
 
 def update_graphs():
-    global x, y1, y2,  y3 ,y4, counter
+    global x, y1, y2,  y3 ,y4,y5,y6, counter
 
     if not stop_graph:
         x.append(counter)
@@ -71,12 +74,17 @@ def update_graphs():
         y2.append(measure(22))
         y3.append(measure(23))
         y4.append(measure(24))
+        y5.append(measure_2(29))
+        y6.append(measure_2(30))
         counter += 1
 
         lines1.set_data(x, y1)
         lines2.set_data(x, y2)
         lines3.set_data(x, y3)
         lines4.set_data(x, y4)
+        lines5.set_data(x, y5)
+        lines6.set_data(x, y6)
+
 
         ax1.relim()
         ax1.autoscale_view()
@@ -86,6 +94,10 @@ def update_graphs():
         ax3.autoscale_view()
         ax4.relim()
         ax4.autoscale_view()
+        ax5.relim()
+        ax5.autoscale_view()
+        ax6.relim()
+        ax6.autoscale_view()
 
         canvas.draw()
 
@@ -104,7 +116,7 @@ def stop():
 def alignment():
     print('aligment start')
     position = np.zeros(64)
-    position[21]=position[22]= 1
+    position[20]=position[21]=position[22]= 1
     # Создаем массив значений
     value = np.zeros(64)
     values = [measure(i + 1) for i in range(len(position)) if position[i] == 1]
@@ -120,11 +132,11 @@ def alignment():
 
 
     # Пока все значения не сравняются с точностью +-0.015 для самого большого изначального числа
-    while np.any(np.abs(value[position == 1] - max_value) > 0.015):
+    while np.any(np.abs(value[position == 1] - max_value) > 0.03):
         array = np.zeros(64)
         array[position == 1][max_index] = 0
         # Устанавливаем 1 на месте элементов, которые необходимо изменить
-        array[position == 1] = np.where(np.abs(value[position == 1] - max_value) > 0.015, 1, array[position == 1])
+        array[position == 1] = np.where(np.abs(value[position == 1] - max_value) > 0.03, 1, array[position == 1])
         array = array.reshape((8,8))
         array = np.flip(array,axis=1)
         array = array.reshape((64,))
@@ -159,23 +171,27 @@ btn_some_function.pack(side=tk.LEFT, padx=10)
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)
 btn_close.pack(side=tk.LEFT, padx=10)
 
-fig, (ax1, ax2,ax3,ax4) = plt.subplots(nrows=4, ncols=1, figsize=(7, 5))
+fig, (ax1, ax2,ax3,ax4,ax5,ax6) = plt.subplots(nrows=6, ncols=1, figsize=(12, 9))
 lines1, = ax1.plot([], [], lw=2)
 lines2, = ax2.plot([], [], lw=2)
 lines3, = ax3.plot([], [], lw=2)
 lines4, = ax4.plot([], [], lw=2)
-ax1.set_title("21 место")
-ax2.set_title(" 22 место")
-ax3.set_title("23 место")
-ax4.set_title(" 24 место")
+lines5, = ax5.plot([], [], lw=2)
+lines6, = ax6.plot([], [], lw=2)
 
+ax1.set_title("21 str")
+ax2.set_title(" 22 srt")
+ax3.set_title("23 srt")
+ax4.set_title(" 24 srt")
+ax5.set_title(" 29 srt")
+ax6.set_title(" 30 srt")
 
 canvas = FigureCanvasTkAgg(fig, root)
 canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-x, y1, y2, y3,y4 = [], [], [],[],[]
+x, y1, y2, y3,y4,y5,y6 = [], [], [],[],[],[],[]
 counter = 0
 stop_graph = False
 
-root.after(10, update_graphs)
+root.after(20, update_graphs)
 root.mainloop()

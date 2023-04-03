@@ -154,7 +154,32 @@ def alignment():
         values = [measure(i + 1) for i in range(len(position)) if position[i] == 1]
         value[position == 1] = values
 
+    return 0
+
+
+
+
+
+def weight_setting(arr):
+    value = []
+    for i, val in enumerate(arr):
+        if val != 0:
+            value.append(measure(i))
+        else:
+            value.append(0)
+            
+    while any(abs(a - b) > 0.01 for a, b in zip(arr, value)):
+        led = [int(abs(a - b) > 0.01) for a, b in zip(arr, value)]
+        dynamic_digital.led_matrix(hdwf, 6, 7, 5, led)
+        time.sleep()
+        
+        for i, val in enumerate(arr):
+            if val != 0:
+                value[i] = measure(i)
     return value
+
+
+
 
 ############################################
 

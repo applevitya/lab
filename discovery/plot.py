@@ -226,4 +226,5 @@ counter = 0
 stop_graph = False
 
 root.after(20, update_graphs)
+
 root.mainloop()

@@ -57,11 +57,8 @@ def all_led(time):
     position = np.zeros(64)
     position[2] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(0.00150)
+    time.sleep(time)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
-    update_graphs()
-    print("должен обновиться график")
-    time.sleep(5)
     print("Выполняется функция, включения всех светодиодов")
 
 def close():
@@ -172,14 +169,15 @@ def weight_setting(arr):
             value.append(0)
             
     while any(abs(a - b) > 0.01 for a, b in zip(arr, value)):
-        led = np.array([int(abs(a - b) > 0.01) for a, b in zip(arr, value)])
+        led = np.array([int((a - b) > 0.01) for a, b in zip(arr, value)])
         led = led.reshape((8,8))
         led = np.flip(led,axis=1)
         led = led.reshape((64,))
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(led))
         time.sleep(0.005)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
-        
+        update_graphs()
+
         for i, val in enumerate(arr):
             if val != 0:
                 value[i] = measure(i+1)
@@ -199,7 +197,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: all_led(time))
+btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: all_led(0.5))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

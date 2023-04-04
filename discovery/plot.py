@@ -169,8 +169,11 @@ def weight_setting(arr):
             value.append(0)
             
     while any(abs(a - b) > 0.01 for a, b in zip(arr, value)):
-        led = [int(abs(a - b) > 0.01) for a, b in zip(arr, value)]
-        dynamic_digital.led_matrix(hdwf, 6, 7, 5, led)
+        led = np.array([int(abs(a - b) > 0.01) for a, b in zip(arr, value)])
+        led = led.reshape((8,8))
+        led = np.flip(led,axis=1)
+        led = led.reshape((64,))
+        dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(led))
         time.sleep(0.005)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
         
@@ -182,7 +185,8 @@ def weight_setting(arr):
 
 
 weights = [0]*64
-weights[19] = 1
+weights[20] = 0.5
+weights[21] = 0.5
 ############################################
 
 root = tk.Tk()

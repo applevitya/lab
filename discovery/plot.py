@@ -53,13 +53,16 @@ def measure_2(index):
         values.append(dynamic_analog.measure(hdwf, 2))
     return sum(values) / len(values)
 
-def some_function():
+def all_led(time):
     position = np.zeros(64)
     position[2] = 1
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
     time.sleep(0.00150)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
-    print("Выполняется функция, не связанная с графиком")
+    update_graphs()
+    print("должен обновиться график")
+    time.sleep(5)
+    print("Выполняется функция, включения всех светодиодов")
 
 def close():
     device.close(hdwf)
@@ -196,7 +199,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Выполнить функцию", command=lambda: weight_setting(weights))
+btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: all_led(time))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

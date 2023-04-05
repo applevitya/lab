@@ -106,6 +106,10 @@ def update_graphs():
         ax8.relim()
         ax8.autoscale_view()
 
+        grad = np.gradient(np.array([y1, y2, y3, y4, y5, y6, y7, y8]).T)
+        ax9.imshow(grad, aspect='auto', cmap='coolwarm', origin='lower')
+
+
         canvas.draw()
 
         root.after(5, update_graphs)
@@ -238,6 +242,11 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 x, y1, y2, y3, y4, y5, y6, y7, y8 = [], [], [], [], [], [], [], [], []
 counter = 0
 stop_graph = False
+
+fig2, ax9 = plt.subplots()
+canvas2 = FigureCanvasTkAgg(fig2, root)
+canvas2.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
 
 root.after(20, update_graphs)
 

@@ -242,7 +242,7 @@ stop_graph = False
 
 
 canvas2 = FigureCanvasTkAgg(fig, root)
-canvas2.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+canvas2.get_tk_widget().pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
 
 root.after(20, update_graphs)

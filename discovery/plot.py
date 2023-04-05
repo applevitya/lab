@@ -106,12 +106,6 @@ def update_graphs():
         ax8.relim()
         ax8.autoscale_view()
 
-        colors = [y1[-1], y2[-1], y3[-1], y4[-1], y5[-1], y6[-1], y7[-1], y8[-1]]
-        x, z = np.meshgrid(np.arange(0, 32, 4), np.arange(0, 8, 4))
-
-        # Создаем квадратики размера 4 на 4 с цветом, соответствующим последнему элементу каждого массива
-        ax9.pcolormesh(x, z, np.array([colors]), cmap='RdBu_r')
-
         canvas.draw()
         canvas2.draw()
 
@@ -246,8 +240,8 @@ x, y1, y2, y3, y4, y5, y6, y7, y8 = [], [], [], [], [], [], [], [], []
 counter = 0
 stop_graph = False
 
-fig2, ax9 = plt.subplots()
-canvas2 = FigureCanvasTkAgg(fig2, root)
+
+canvas2 = FigureCanvasTkAgg(fig, root)
 canvas2.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 

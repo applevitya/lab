@@ -110,7 +110,7 @@ def update_graphs():
         x, z = np.meshgrid(np.arange(0, 32, 4), np.arange(0, 8, 4))
 
         # Создаем квадратики размера 4 на 4 с цветом, соответствующим последнему элементу каждого массива
-        ax.pcolormesh(x, z, np.array([colors]), cmap='RdBu_r')
+        ax9.pcolormesh(x, z, np.array([colors]), cmap='RdBu_r')
 
         canvas.draw()
         canvas2.draw()

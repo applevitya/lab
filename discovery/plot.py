@@ -106,7 +106,7 @@ def update_graphs():
         ax8.relim()
         ax8.autoscale_view()
 
-        grad = np.gradient(np.array([y1[-1], y2[-1], y3[-1], y4[-1], y5[-1], y6[-1], y7[-1], y8[-1]]).T)
+        grad = np.gradient(np.array([y1[-1], y2[-1], y3[-1], y4[-1], y5[-1], y6[-1], y7[-1], y8[-1]]))
         ax9.imshow(grad, aspect='auto', cmap='coolwarm', origin='lower')
 
 

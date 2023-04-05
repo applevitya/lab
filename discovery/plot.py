@@ -40,7 +40,7 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(100):
+    for i in range(50):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
@@ -49,15 +49,13 @@ def measure_2(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(70):
+    for i in range(100):
         values.append(dynamic_analog.measure(hdwf, 2))
     return sum(values) / len(values)
 
-def all_led(time):
-    position = np.zeros(64)
-    position[2] = 1
+def all_led(t):
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-    time.sleep(time)
+    time.sleep(t)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
     print("Выполняется функция, включения всех светодиодов")
 
@@ -74,8 +72,8 @@ def update_graphs():
         y2.append(measure(22))
         y3.append(measure(23))
         y4.append(measure(24))
-        y5.append(measure_2(29))
-        y6.append(measure_2(30))
+        y5.append(measure(30))
+        y6.append(measure(31))
         counter += 1
 
         lines1.set_data(x, y1)
@@ -186,8 +184,8 @@ def weight_setting(arr):
 
 
 weights = [0]*64
-weights[20] = 0.5
-weights[21] = 0.5
+weights[20] = 0.2
+weights[21] = 0.2
 ############################################
 
 root = tk.Tk()
@@ -197,7 +195,7 @@ root.geometry("1000x600")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: weight_setting(weights))
+btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: all_led(1))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

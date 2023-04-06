@@ -180,7 +180,7 @@ def weight_setting(arr):
         led = np.flip(led,axis=1)
         led = led.reshape((64,))
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(led))
-        time.sleep(0.05)
+        time.sleep(0.005)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
         update_graphs()
 
@@ -192,8 +192,8 @@ def weight_setting(arr):
 
 
 weights = [0] * 64
-weights[20:24] = [1] * 4
-weights[28:32] = [1] * 4
+weights[20:24] = [0.2] * 4
+weights[28:32] = [0.2] * 4
 ####################################################################################################################################
 
 
@@ -206,7 +206,7 @@ root.geometry("1300x800")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: alignment(weights))
+btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: weight_setting(weights))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

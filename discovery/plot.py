@@ -40,7 +40,7 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(50):
+    for i in range(200):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
@@ -120,10 +120,9 @@ def stop():
 
 ###################################################################################################################################
 
-def alignment():
+def alignment(position):
     print('aligment start')
-    position = np.zeros(64)
-    position[20]=position[21]=position[22]= 1
+    position = np.array(position)
     # Создаем массив значений
     value = np.zeros(64)
     values = [measure(i + 1) for i in range(len(position)) if position[i] == 1]
@@ -193,8 +192,8 @@ def weight_setting(arr):
 
 
 weights = [0] * 64
-weights[20:24] = [0.4] * 4
-weights[28:32] = [0.4] * 4
+weights[20:24] = [1] * 4
+weights[28:32] = [1] * 4
 ####################################################################################################################################
 
 
@@ -207,7 +206,7 @@ root.geometry("1300x800")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: weight_setting(weights))
+btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: alignment(weights))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)

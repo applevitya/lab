@@ -179,10 +179,10 @@ def weight_setting(arr):
         led = led.reshape((8,8))
         led = np.flip(led,axis=1)
         led = led.reshape((64,))
+        print(led)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(led))
         time.sleep(0.005)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
-        update_graphs()
 
         for i, val in enumerate(arr):
             if val != 0:

@@ -206,7 +206,10 @@ root.geometry("1300x800")
 frame_buttons = ttk.Frame(root)
 frame_buttons.pack(side=tk.TOP, pady=20)
 
-btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: weight_setting(weights))
+btn_function = ttk.Button(frame_buttons, text="Включаем все светодиоды на 0.5 сек", command=lambda: all_led())
+btn_function.pack(side=tk.LEFT, padx=10)
+
+btn_some_function = ttk.Button(frame_buttons, text="Включаем все светодиоды", command=lambda: dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off))
 btn_some_function.pack(side=tk.LEFT, padx=10)
 
 btn_close = ttk.Button(frame_buttons, text="Закрыть", command=stop)
@@ -237,6 +240,28 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 x, y1, y2, y3, y4, y5, y6, y7, y8 = [], [], [], [], [], [], [], [], []
 counter = 0
 stop_graph = False
+
+# Создаем текстовое поле для ввода кода
+text_box = tk.Text(root, height=20, width=100)
+text_box.pack()
+# Добавляем заранее записанный текст в начало текстового поля
+text_box.insert("1.0", "Здесь можно вводить код\n")
+
+def run_code():
+    # Получаем введенный код
+    code = text_box.get("1.0", "end-1c")
+    
+    try:
+        # Запускаем код
+        exec(code)
+    except Exception as e:
+        # Выводим сообщение об ошибке, если код не удалось выполнить
+        print("Ошибка:", e)
+
+# Создаем кнопку для запуска введенного кода
+btn_run = ttk.Button(frame_buttons, text="Выполнить код", command=run_code)
+btn_run.pack(side=tk.LEFT, padx=10)
+
 
 
 root.after(20, update_graphs)

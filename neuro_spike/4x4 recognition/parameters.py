@@ -21,7 +21,7 @@ thresh = 0.14
 # encoding
 firing_delimeter = 500
 # STDP
-A_plus = 0.8
+A_plus = 1
 A_minus = 1.9
 
 tau_plus = 1

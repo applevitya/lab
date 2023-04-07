@@ -16,7 +16,7 @@ W = np.random.uniform(0,0.5,size = [num_in_neu,num_out_neu])
 #################################
 # time series
 
-T = 100 #ms
+T = 10 #ms
 dt = 0.1
 time = np.arange(0,T+dt,dt)
 
@@ -58,7 +58,7 @@ for ep in range(epochs):
 						v = neu.vprev + (-neu.vprev + I[j] * neu.R) / neu.tau_m * dt  # LIF
 						# v= neu.vprev + np.dot(W[i][j],in_spikes[i][t])
 						if (v > neu.v_base):
-							# v -= 0.01
+							#v -= 0.01
 							if v < neu.v_base:
 								v = neu.v_base
 
@@ -66,14 +66,16 @@ for ep in range(epochs):
 							neu.num += 1
 							out_spikes[j][t] = 1
 							neu.initRefrac = t + neu.refracTime
-							v = neu.v_base
-							neu.v_thresh += 0.002
+							# v = neu.v_base
+							neu.v_thresh += 0.01
 							neu.vprev = v
 							neu.vprev = 0.00
 							break
 
 						neu.vprev = v
 
+			for j,neu in enumerate(out_neurons):
+				max()
 				for i in range(num_in_neu):
 					for t1 in range(-1, -range_stdp, -1):
 						if 0 <= t + t1 < len(time):

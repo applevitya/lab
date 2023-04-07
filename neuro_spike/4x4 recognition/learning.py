@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.5,size = [num_in_neu,num_out_neu])
+W = np.random.uniform(0,0.15,size = [num_in_neu,num_out_neu])
 #W = np.ones((num_in_neu,num_out_neu))*0.01
 
 #################################
@@ -38,7 +38,7 @@ for ep in range(epochs):
 		a = LIF_simple()
 		out_neurons.append(a)
 
-	for m in range(1,2):
+	for m in range(1,3):
 		img = read_img(str(m)+".png")
 		for l in range(num_in_neu):
 			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
@@ -61,21 +61,31 @@ for ep in range(epochs):
 							#v -= 0.01
 							if v < neu.v_base:
 								v = neu.v_base
+								pass
 
 						if v >= neu.v_thresh:
 							neu.num += 1
 							out_spikes[j][t] = 1
 							neu.initRefrac = t + neu.refracTime
-							# v = neu.v_base
-							neu.v_thresh += 0.01
-							neu.vprev = v
-							neu.vprev = 0.00
+
+							neu.v_thresh += 0.003
 							break
 
 						neu.vprev = v
 
+			max_index = 0
+			max_value = out_neurons[0].vprev
+			for i in range(len(out_neurons)):
+				if out_neurons[i].vprev > max_value:
+					max_index = i
+					max_value = out_neurons[i].vprev
+
+			for j, neu in enumerate(out_neurons):
+				neu.vprev = 0
+				if j!= max_index:
+					out_spikes[j][t] = 0
+
 			for j,neu in enumerate(out_neurons):
-				max()
 				for i in range(num_in_neu):
 					for t1 in range(-1, -range_stdp, -1):
 						if 0 <= t + t1 < len(time):
@@ -85,10 +95,7 @@ for ep in range(epochs):
 						if 0 <= t + t1 < len(time):
 							if in_spikes[i][t + t1] == 1 and out_spikes[j][t] == 1:
 								W[i][j] = update(W[i][j], t1)
-			for j, neu in enumerate(out_neurons):
-				if out_spikes[j][t] != 1:
-					neu.vprev = 0.00
-					continue
+
 
 
 

@@ -25,8 +25,8 @@ firing_delimeter = 60
 # STDP
 A_plus = 0.04
 A_minus = 0.7
-tau_plus = 5
-tau_minus = 8
+tau_plus = 10
+tau_minus = 10
 
 
 range_stdp = 5

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.3,size = [num_in_neu,num_out_neu])
+W = np.random.uniform(0,0.4,size = [num_in_neu,num_out_neu])
 #W = np.ones((num_in_neu,num_out_neu))*0.01
 #################################
 # time series
@@ -63,7 +63,7 @@ for ep in range(epochs):
 							out_spikes[j][t] = 1
 							neu.initRefrac = t + neu.refracTime
 
-							neu.v_thresh += 0
+							neu.v_thresh += 0.01
 							# break
 				neu.vprev = v
 

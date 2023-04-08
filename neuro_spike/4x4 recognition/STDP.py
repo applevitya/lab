@@ -19,7 +19,7 @@ def update(w, t):
                 return 1
             else: return w + del_w
         else:
-            return 0.2
+            return 0.1
 
     elif del_w > 0:
         if w + del_w > 0:
@@ -28,7 +28,7 @@ def update(w, t):
             else:
                 return w + del_w
         else:
-            return 0.2
+            return 0.1
 
 
 

@@ -3,7 +3,7 @@
 
 # initial learning par
 num_in_neu = 4  # 4x4 size image
-epochs = 1
+epochs = 5
 
 num_out_neu =2
 
@@ -12,21 +12,21 @@ num_out_neu =2
 R = 1
 C = 1
 
-refrac_time = 0.1
+refrac_time = 0.15
 init_refrac = 0
 noise = 0
 
-thresh = 0.004
+thresh = 0.003
 
 # encoding
-firing_delimeter = 50
+firing_delimeter = 60
 
 
 # STDP
-A_plus = 1
-A_minus = 2
-tau_plus = 1
-tau_minus = 1
+A_plus = 0.04
+A_minus = 0.7
+tau_plus = 5
+tau_minus = 8
 
 
 range_stdp = 5

@@ -56,7 +56,7 @@ for ep in range(epochs):
 						if (v > neu.v_base):
 							#v -= 0.01
 							if v < neu.v_base:
-								# v = neu.v_base
+								v = neu.v_base
 								pass
 						if v >= neu.v_thresh:
 							neu.num += 1
@@ -64,7 +64,6 @@ for ep in range(epochs):
 							neu.initRefrac = t + neu.refracTime
 
 							neu.v_thresh += 0.01
-							# break
 				neu.vprev = v
 
 			max_index = 0

@@ -19,12 +19,13 @@ noise = 0
 thresh = 0.001
 
 # encoding
-firing_delimeter = 40
+firing_delimeter = 50
 
 
 # STDP
-A_plus = 0.01
-A_minus = 3
+A_plus = 0.1
+A_minus = 2
+
 tau_plus = 5
 tau_minus = 8
 

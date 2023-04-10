@@ -16,6 +16,7 @@ refrac_time = 0.014
 init_refrac = 0
 noise = 0
 
+
 thresh = 0.001
 
 # encoding

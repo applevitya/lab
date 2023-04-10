@@ -2,32 +2,32 @@
 
 
 # initial learning par
-num_in_neu = 4  # 4x4 size image
+num_in_neu = 16  # 4x4 size image
 epochs = 1
 
-num_out_neu =2
+num_out_neu =3
 
 
 #  neuron par
-R = 1
-C = 1
+R = 100
+C = 1.
 
-refrac_time = 0.1
+refrac_time = 0.014
 init_refrac = 0
 noise = 0
 
 thresh = 0.001
 
 # encoding
-firing_delimeter = 50
+firing_delimeter =22
 
 
 # STDP
-A_plus = 0.1
-A_minus = 2
+A_plus = 0.01
+A_minus = 4.3
 
-tau_plus = 5
-tau_minus = 8
+tau_plus = 6
+tau_minus = 15
 
 
 range_stdp = 5

@@ -26,7 +26,7 @@ class LIF_simple():
     def __init__(self):
         LIFneuronConfig.__init__(self, )
         self.num = 0
-        self.vprev = self.v_base
+        self.vprev = self.v_base-1
 
     def generateSpiking(self, I, t, dt):
         v = self.v_base

@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.4,size = [num_in_neu,num_out_neu])
-#W = np.ones((num_in_neu,num_out_neu))*0.01
+W = np.random.uniform(0,0.2,size = [num_in_neu,num_out_neu])
+# W = np.ones((num_in_neu,num_out_neu))*0.3
 #################################
 # time series
 
@@ -33,11 +33,18 @@ for ep in range(epochs):
 
 	# creating the output layer of neurons
 	out_neurons = []
-	for i in range(num_out_neu):
-		a = LIF_simple()
-		out_neurons.append(a)
+	# for i in range(num_out_neu):
+	# 	a = LIF_simple()
+	# 	out_neurons.append(a)
 
 	for m in range(1,3):
+		in_spikes = np.zeros(shape=(num_in_neu, len(time)))
+		out_spikes = np.zeros(shape=(num_out_neu, len(time)))
+		out_neurons = []
+		for i in range(num_out_neu):
+			a = LIF_simple()
+			out_neurons.append(a)
+
 		img = read_img(str(m)+".png")
 		for l in range(num_in_neu):
 			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
@@ -47,14 +54,14 @@ for ep in range(epochs):
 			for j,neu in enumerate(out_neurons):
 				I[j] = 0
 				for i in range(num_in_neu):
-					#I[j] = 0
+					# I[j] = 0
 					I[j] += np.dot(W[i][j],in_spikes[i][t])
 				if t>=neu.initRefrac:
 						v = neu.vprev + (-neu.vprev + I[j] * neu.R) / neu.tau_m * dt  # LIF
 
-						#v= neu.vprev + np.dot(W[i][j],in_spikes[i][t])
+						# v= neu.vprev + np.dot(W[i][j],in_spikes[i][t])
 						if (v > neu.v_base):
-							#v -= 0.01
+							v -= 0.01
 							if v < neu.v_base:
 								v = neu.v_base
 								pass
@@ -63,7 +70,7 @@ for ep in range(epochs):
 							out_spikes[j][t] = 1
 							neu.initRefrac = t + neu.refracTime
 
-							neu.v_thresh += 0.01
+							neu.v_thresh += 0.001
 				neu.vprev = v
 
 			max_index = 0
@@ -100,6 +107,7 @@ for ep in range(epochs):
 data = W
 plt.imshow(data, cmap='plasma')
 plt.colorbar()
+
 
 
 

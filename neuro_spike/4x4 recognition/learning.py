@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0,0.2,size = [num_in_neu,num_out_neu])
-# W = np.ones((num_in_neu,num_out_neu))*0.3
+W = np.random.uniform(0.1,0.2,size = [num_in_neu,num_out_neu])
+# W = np.ones((num_in_neu,num_out_neu))*0.2
 #################################
 # time series
 
@@ -47,7 +47,7 @@ for ep in range(epochs):
 
 		img = read_img(str(m)+".png")
 		for l in range(num_in_neu):
-			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
+			in_spikes[l] = Poisson_generator(T, dt, 0.0 + img[l], 1)
 
 		I = np.zeros(shape=(num_out_neu,))
 		for t in range(len(time)):
@@ -61,7 +61,7 @@ for ep in range(epochs):
 
 						# v= neu.vprev + np.dot(W[i][j],in_spikes[i][t])
 						if (v > neu.v_base):
-							v -= 0.01
+							v -= 0.012
 							if v < neu.v_base:
 								v = neu.v_base
 								pass

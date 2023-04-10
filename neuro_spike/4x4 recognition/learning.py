@@ -10,12 +10,12 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0.1,0.2,size = [num_in_neu,num_out_neu])
+W = np.random.uniform(0.1,0.3,size = [num_in_neu,num_out_neu])
 # W = np.ones((num_in_neu,num_out_neu))*0.2
 #################################
 # time series
 
-T = 10#ms
+T = 100#ms
 dt = 0.1
 time = np.arange(0,T+dt,dt)
 
@@ -108,7 +108,7 @@ data = W
 plt.imshow(data, cmap='plasma')
 plt.colorbar()
 
-
+print(in_spikes[3])
 
 
 plt.show()

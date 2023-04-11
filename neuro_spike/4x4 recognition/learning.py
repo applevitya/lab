@@ -10,12 +10,12 @@ import matplotlib.pyplot as plt
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0.1,0.3,size = [num_in_neu,num_out_neu])
+W = np.random.uniform(0.1,0.6,size = [num_in_neu,num_out_neu])
 # W = np.ones((num_in_neu,num_out_neu))*0.2
 #################################
 # time series
 
-T = 100#ms
+T = 10#ms
 dt = 0.1
 time = np.arange(0,T+dt,dt)
 
@@ -37,7 +37,7 @@ for ep in range(epochs):
 	# 	a = LIF_simple()
 	# 	out_neurons.append(a)
 
-	for m in range(1,3):
+	for m in range(4,5):
 		in_spikes = np.zeros(shape=(num_in_neu, len(time)))
 		out_spikes = np.zeros(shape=(num_out_neu, len(time)))
 		out_neurons = []
@@ -47,7 +47,7 @@ for ep in range(epochs):
 
 		img = read_img(str(m)+".png")
 		for l in range(num_in_neu):
-			in_spikes[l] = Poisson_generator(T, dt, 0.0 + img[l], 1)
+			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
 
 		I = np.zeros(shape=(num_out_neu,))
 		for t in range(len(time)):
@@ -105,10 +105,8 @@ for ep in range(epochs):
 ######### testing ################
 
 data = W
-plt.imshow(data, cmap='plasma')
+aspect_ratio = float(data.shape[1]) / data.shape[0]
+
+plt.imshow(data, cmap='plasma', aspect=aspect_ratio, extent=[0, data.shape[1], 0, data.shape[0]])
 plt.colorbar()
-
-print(in_spikes[3])
-
-
 plt.show()

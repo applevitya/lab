@@ -207,7 +207,7 @@ root.geometry("1300x1000")
 text_box = tk.Text(root, height=20, width=100)
 text_box.pack()
 # Добавляем заранее записанный текст в начало текстового поля
-text_box.insert("1.0", "Здесь можно вводить код\n")
+text_box.insert("1.0", "all_led(10)\n")
 
 
 def run_code():

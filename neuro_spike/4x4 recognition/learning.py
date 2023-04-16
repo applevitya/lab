@@ -1,16 +1,17 @@
 from neuron import LIF_simple
 from parameters import num_in_neu,num_out_neu, range_stdp,epochs
-from encoding import Poisson_generator, read_img
+from encoding import Poisson_generator, read_img,reconst_weights,spikes_graph
 from STDP import update
 import numpy as np
 import matplotlib.pyplot as plt
-
+import cv2
+import csv
 
 
 
 ############ Random Weights #####################
 
-W = np.random.uniform(0.1,0.2,size = [num_in_neu,num_out_neu])
+W = np.random.uniform(0.1,0.3,size = [num_in_neu,num_out_neu])
 # W = np.ones((num_in_neu,num_out_neu))*0.2
 #################################
 # time series
@@ -49,6 +50,7 @@ for ep in range(epochs):
 		for l in range(num_in_neu):
 			in_spikes[l] = Poisson_generator(T, dt, 0 + img[l], 1)
 
+		spikes_graph(in_spikes,m)
 		I = np.zeros(shape=(num_out_neu,))
 		for t in range(len(time)):
 			for j,neu in enumerate(out_neurons):
@@ -108,6 +110,28 @@ data = W
 aspect_ratio = float(data.shape[1]) / data.shape[0]
 
 # plt.imshow(data, cmap='plasma', aspect=aspect_ratio, extent=[0, data.shape[1], 0, data.shape[0]])
+# Устанавливаем только целые значения больше нуля по осям X и Y
+fig1, ax1 = plt.subplots()
+xlabels = [i for i in range(1, W.shape[1]+1) if i % 1 == 0]
+ylabels = [i for i in range(1, W.shape[0]+1) if i % 1 == 0]
+plt.xticks(np.arange(W.shape[1]), xlabels)
+plt.yticks(np.arange(W.shape[0]), ylabels)
+
+
 plt.imshow(data, cmap='plasma')
 plt.colorbar()
+plt.title('Значения весов нейронной сети')
+
+plt.savefig('results/gradient.png', dpi=500)
 plt.show()
+
+
+
+result1 = cv2.hconcat(reconst_weights(W[:,0]))
+cv2.imwrite("results/neuron_0.png", result1)
+result2 = cv2.hconcat(reconst_weights(W[:,1]))
+cv2.imwrite("results/neuron_1.png", result2)
+
+with open('results/W.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(W)

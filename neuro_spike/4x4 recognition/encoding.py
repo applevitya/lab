@@ -1,6 +1,7 @@
 import numpy as np
 from parameters import firing_delimeter
 import cv2
+import matplotlib.pyplot as plt
 
 def Poisson_generator(time,dt,rate, n, myseed=False):
   """
@@ -54,3 +55,42 @@ def threshold(train):
 
     return (thresh / 3)
 
+
+def reconst_weights(weights):
+	weights = np.array(weights)
+	weights = np.reshape(weights, (2,2))
+	img = np.zeros((2,2))
+	for i in range(2):
+		for j in range(2):
+			img[i][j] = weights[i][j]*255
+
+	#cv2.imwrite('neuron' + str(num) + '.png' ,img)
+	return img
+
+
+def spikes_graph(in_array,k):
+    # Пример входного двумерного массива
+    input_arr = in_array
+
+    # Создание графика с полосками для каждой строки входного массива
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    # Перебираем каждую строку входного массива
+    for i, row in enumerate(input_arr):
+        # Получаем индексы, где значение равно 1
+        indices = np.where(row == 1)[0]
+        # Для каждого индекса рисуем полоску на графике
+        for index in indices:
+            ax.fill_between([index, index+1], i*0.1, (i+1)*0.1, color='red', alpha=0.8)
+
+    # Установка свойств графика
+    ax.set_xlim(-1, input_arr.shape[1])
+    ax.set_ylim(-0.1, input_arr.shape[0]*0.1)
+    ax.set_xticks(np.arange(0, input_arr.shape[1], 100))
+    ax.set_xticklabels(np.arange(1, input_arr.shape[1]+1, 100))
+    ax.set_yticks(np.arange(0, input_arr.shape[0], 2)*0.1+0.05) # установка меток на каждой второй строке
+    ax.set_yticklabels(np.arange(1, input_arr.shape[0]+1, 2))
+    ax.set_xlabel('Время, (ms)')
+    ax.set_ylabel('Входные нейроны')
+    ax.set_title('Входные спайки обучения')
+    fig.savefig('results/in_spikes'+str(k)+'.png', dpi=300)

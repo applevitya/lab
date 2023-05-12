@@ -16,7 +16,7 @@ W = np.random.uniform(0.1,0.3,size = [num_in_neu,num_out_neu])
 #################################
 # time series
 
-T = 10 #ms
+T = 22 #ms
 dt = 0.1
 time = np.arange(0,T+dt,dt)
 

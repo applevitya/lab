@@ -2,7 +2,7 @@
 
 
 # initial learning par
-num_in_neu = 4  # 4x4 size image
+num_in_neu = 16  # 4x4 size image
 epochs = 1
 
 num_out_neu =2

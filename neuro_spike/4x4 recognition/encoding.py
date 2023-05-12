@@ -36,6 +36,7 @@ def Poisson_generator(time,dt,rate, n, myseed=False):
 
   return poisson_train
 
+
 def read_img(name_file):
 
 	img = cv2.imread(name_file, 0)
@@ -43,6 +44,8 @@ def read_img(name_file):
 
 	img = np.ndarray.flatten(img)
 	return img
+
+
 
 
 def threshold(train):
@@ -66,6 +69,9 @@ def reconst_weights(weights):
 
 	#cv2.imwrite('neuron' + str(num) + '.png' ,img)
 	return img
+
+
+
 
 
 def spikes_graph(in_array,k):

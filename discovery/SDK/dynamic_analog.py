@@ -94,7 +94,7 @@ def close(device_data):
 
 
 
-def struct_measure(device_handle,shift,clock,data,matrix): #shift - это защелка, clock - вход тактовых импульсв, data- входные данные 
+def struct_measure(device_handle,shift,clock,data,matrix): #shift - это защелка, clock - вход тактовых импульсв, data- входные данные
 
     for i in range(8):
 	    block =matrix[i*8 : (i+1)*8]

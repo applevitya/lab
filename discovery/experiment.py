@@ -57,7 +57,7 @@ print(initial_weights)
 
 #led-stimulation
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-time.sleep(10000)
+time.sleep(1000)
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
 

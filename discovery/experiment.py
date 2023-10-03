@@ -18,7 +18,7 @@ led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем светодиоды
 
-iteration = 300
+iteration = 200
 
 def measure(index):
     struct_index = [0 for i in range(64)]
@@ -45,31 +45,44 @@ def measure_2(index):
 
 
 
-known_indices = [22, 23, 24, 30]  # Заранее известные индексы
-initial_weights = []
-final_weights = []
+# known_indices = [22, 23, 24, 30]  # Заранее известные индексы
+# initial_weights = []
+# final_weights = []
 
-for index in known_indices:
-    value = measure(index)  # Получаем значение из функции measure
-    initial_weights.append(value)  # Добавляем значение в массив initial_weights
+# for index in known_indices:
+#     value = measure(index)  # Получаем значение из функции measure
+#     initial_weights.append(value)  # Добавляем значение в массив initial_weights
 
-print(initial_weights)  
+# print(initial_weights)
 
-#led-stimulation
-dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
-time.sleep(1000)
-dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
+# #led-stimulation
+# dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
+# time.sleep(1000)
+# dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
 
-for index in known_indices:
-    value = measure(index)  # Получаем значение из функции measure
-    final_weights.append(value)  # Добавляем значение в массив initial_weights
+# for index in known_indices:
+#     value = measure(index)  # Получаем значение из функции measure
+#     final_weights.append(value)  # Добавляем значение в массив initial_weights
 
-print(final_weights)
+# print(final_weights)
 
-data=np.vstack((initial_weights,final_weights))
-# Запись массивов в файл
-with open("calibration.txt", "w") as file:
-    np.savetxt(file, data)
+# data=np.vstack((initial_weights,final_weights))
+# # Запись массивов в файл
+# with open("calibration.txt", "w") as file:
+#     np.savetxt(file, data)
+
+
+
+############################################################################################################################################################
+#one impulse detection
+
+known_indices = [22]
+weights_array = []
+
+for 
+
+
+
 
 device.close(hdwf)

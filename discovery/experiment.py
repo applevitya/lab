@@ -55,7 +55,7 @@ def measure_2(index):
 
 # print(initial_weights)
 
-# #led-stimulation
+#led-stimulation
 # dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
 # time.sleep(1000)
 # dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
@@ -77,10 +77,39 @@ def measure_2(index):
 ############################################################################################################################################################
 #one impulse detection
 
-known_indices = [22]
+known_indices = [24]
 weights_array = []
 
-for 
+start_time = time.time()
+
+while len(weights_array)<20:
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time  
+    weights_array.append((value, current_time))
+    time.sleep(0.03)
+
+#led-stimulation
+
+while len(weights_array)<40:
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
+    time.sleep(1)
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
+
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time  
+    weights_array.append((value, current_time))
+    time.sleep(0.00005)
+
+while len(weights_array)<100:
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time  
+    weights_array.append((value, current_time))
+    time.sleep(0.5)
+
+
+data = np.array(weights_array)
+with open("calibration.txt", "w") as file:
+    np.savetxt(file, data)
 
 
 

@@ -40,7 +40,7 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(50):
+    for i in range(300):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
@@ -49,7 +49,7 @@ def measure_2(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(50):
+    for i in range(300):
         values.append(dynamic_analog.measure(hdwf, 2))
     return sum(values) / len(values)
 
@@ -68,14 +68,14 @@ def update_graphs():
 
     if not stop_graph:
         x.append(counter)
-        y1.append(measure(21))
-        y2.append(measure(22))
-        y3.append(measure(23))
-        y4.append(measure(24))
-        y5.append(measure_2(37))
-        y6.append(measure_2(38))
-        y7.append(measure_2(39))
-        y8.append(measure_2(40))
+        y1.append(measure(22))
+        y2.append(measure(23))
+        y3.append(measure(24))
+        y4.append(measure(30))
+        y5.append(measure(31))
+        y6.append(measure(32))
+        y7.append(measure_2(38))
+        y8.append(measure_2(39))
 
         counter += 1
 
@@ -248,14 +248,14 @@ lines6, = ax6.plot([], [], lw=2)
 lines7, = ax7.plot([], [], lw=2)
 lines8, = ax8.plot([], [], lw=2)
 
-ax1.set_title("21 str")
-ax2.set_title("22 srt")
-ax3.set_title("23 srt")
-ax4.set_title("24 srt")
-ax5.set_title("29 srt")
-ax6.set_title("30 srt")
-ax7.set_title("31 srt")
-ax8.set_title("32 srt")
+ax1.set_title("1 str")
+ax2.set_title("2 srt")
+ax3.set_title("3 srt")
+ax4.set_title("9 srt")
+ax5.set_title("10 srt")
+ax6.set_title("11 srt")
+ax7.set_title("17 srt")
+ax8.set_title("18 srt")
 
 canvas = FigureCanvasTkAgg(fig, root)
 canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)

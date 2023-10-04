@@ -77,7 +77,7 @@ def measure_2(index):
 ############################################################################################################################################################
 #one impulse detection
 
-known_indices = [24]
+known_indices = [23]
 weights_array = []
 
 start_time = time.time()
@@ -98,9 +98,9 @@ while len(weights_array)<40:
     value = measure(known_indices[0])
     current_time = time.time() - start_time  
     weights_array.append((value, current_time))
-    time.sleep(0.00005)
+    #time.sleep(0.00005)
 
-while len(weights_array)<100:
+while len(weights_array)<1:
     value = measure(known_indices[0])
     current_time = time.time() - start_time  
     weights_array.append((value, current_time))
@@ -108,7 +108,7 @@ while len(weights_array)<100:
 
 
 data = np.array(weights_array)
-with open("calibration.txt", "w") as file:
+with open("results/calibration.txt", "w") as file:
     np.savetxt(file, data)
 
 

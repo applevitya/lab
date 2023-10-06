@@ -40,7 +40,7 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(300):
+    for i in range(500):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 

@@ -84,7 +84,7 @@ start_time = time.time()
 
 while len(weights_array)<20:
     value = measure(known_indices[0])
-    current_time = time.time() - start_time  
+    current_time = time.time() - start_time
     weights_array.append((value, current_time))
     time.sleep(0.03)
 
@@ -96,9 +96,25 @@ while len(weights_array)<70:
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
     value = measure(known_indices[0])
-    current_time = time.time() - start_time  
+    current_time = time.time() - start_time
     weights_array.append((value, current_time))
     #time.sleep(0.00005)
+
+while len(weights_array)<90:
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time
+    weights_array.append((value, current_time))
+    time.sleep(1)
+
+
+while len(weights_array)<120:
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
+    time.sleep(1)
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
+
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time
+    weights_array.append((value, current_time))
 
 while len(weights_array)<13000:
     value = measure(known_indices[0])

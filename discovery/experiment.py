@@ -107,7 +107,7 @@ while len(weights_array)<90:
     time.sleep(1)
 
 
-while len(weights_array)<120:
+while len(weights_array)<140:
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
     time.sleep(1)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
@@ -115,6 +115,22 @@ while len(weights_array)<120:
     value = measure(known_indices[0])
     current_time = time.time() - start_time
     weights_array.append((value, current_time))
+
+while len(weights_array)<150:
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time
+    weights_array.append((value, current_time))
+    time.sleep(1)
+
+while len(weights_array)<200:
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
+    time.sleep(1)
+    dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
+
+    value = measure(known_indices[0])
+    current_time = time.time() - start_time
+    weights_array.append((value, current_time))
+
 
 while len(weights_array)<13000:
     value = measure(known_indices[0])

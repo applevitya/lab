@@ -1,5 +1,5 @@
 from ctypes import *
-from  SDK import staticIO, device, dynamic_digital, dynamic_analog
+from  ..SDK import staticIO, device, dynamic_digital, dynamic_analog
 import sys
 import numpy as np
 

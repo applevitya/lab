@@ -18,7 +18,7 @@ led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем светодиоды
 
-iteration = 500
+iteration = 200
 
 def measure(index):
     struct_index = [0 for i in range(64)]

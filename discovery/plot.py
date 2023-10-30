@@ -68,9 +68,9 @@ def update_graphs():
 
     if not stop_graph:
         x.append(counter)
-        y1.append(measure(22))
-        y2.append(measure(23))
-        y3.append(measure(25))
+        y1.append(measure(27))
+        y2.append(measure(28))
+        y3.append(measure(29))
         y4.append(measure(30))
         y5.append(measure(31))
         y6.append(measure(32))

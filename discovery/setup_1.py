@@ -71,7 +71,7 @@ def weight_setting(arr):
 
 ## зададим картинку
 
-pic = np.loadtxt('start.txt')
+pic = np.loadtxt('experiment/start.txt')
 pic = pic*2.2987315479909154/255
 pic = pic.reshape(-1)
 

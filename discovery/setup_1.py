@@ -95,7 +95,7 @@ pic = np.loadtxt('experiment/start.txt')
 pic = pic*2.2980424272707376/255
 pic = pic.reshape(-1)
 
-indexes = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 50))
+indexes = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 51))
 weights = [0] * 64
 
 for i, index in enumerate(indexes):
@@ -108,11 +108,11 @@ weight_setting(weights) # задали картинку
 
 df= pd.read_csv('experiment/event.csv') # файл с events
 
+
 for i in range(df.shape[0]):
-    pulse_to_structure(df.loc[i].to_numpy())
+    for j, index in enumerate(indexes):
+        leds_array = [0]*64
+        leds_array[index-1] = df.loc[i].to_numpy()[j]
+        pulse_to_structure(leds_array)
 
-
-
-
-
-
+        

@@ -67,12 +67,15 @@ def weight_setting(arr):
                     value[i] = measure_2(i+1)
     return value
 
+def pulse_to_structure():
+
+
 ####################################################################################################################################
 
 ## зададим картинку
 
 pic = np.loadtxt('experiment/start.txt')
-pic = pic*2.2987315479909154/255
+pic = pic*2.2980424272707376/255
 pic = pic.reshape(-1)
 
 indexes = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 50))

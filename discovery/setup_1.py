@@ -109,7 +109,7 @@ weight_setting(weights) # задали картинку
 df= pd.read_csv('experiment/event.csv') # файл с events
 
 for i in range(df.shape[0]):
-    pulse_to_structure(df.loc[i])
+    pulse_to_structure(df.loc[i].to_numpy())
 
 
 

@@ -95,7 +95,7 @@ pic = np.loadtxt('experiment/start.txt')
 pic = pic*2.2980424272707376/255
 pic = pic.reshape(-1)
 
-indexes = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 51))
+indexes = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 50))
 weights = [0] * 64
 
 for i, index in enumerate(indexes):

@@ -2,7 +2,7 @@ from ctypes import *
 from SDK import staticIO, device, dynamic_digital, dynamic_analog
 import sys
 import numpy as np
-
+import pandas as pd
 import time
 
 
@@ -70,8 +70,17 @@ def weight_setting(arr):
                     value[i] = measure_2(i+1)
     return value
 
-def pulse_to_structure():
-    
+def pulse_to_structure(str_array):
+    str_array = str_array.reshape((8,8))
+    str_array = np.flip(str_array,axis=1)
+    str_array = str_array.reshape((64,))
+
+    dynamic_digital.led_matrix(hdwf,6,7,5,list(str_array))
+    time.sleep(10)
+    dynamic_digital.led_matrix(hdwf,6,7,5,list(led_off))
+
+    pass
+
 
 
 
@@ -95,6 +104,15 @@ for i, index in enumerate(indexes):
 
 weight_setting(weights) # задали картинку 
 
-####### 
+####### Эксперимент
+
+df= pd.read_csv('experiment/event.csv') # файл с events
+
+for i in range(df.shape[0]):
+    pulse_to_structure(df.loc[i])
+
+
+
+
 
 

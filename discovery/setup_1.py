@@ -20,6 +20,7 @@ dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем свет
 
 iteration = 50
 
+
 def measure(index):
     struct_index = [0 for i in range(64)]
     struct_index[index-1] = 1
@@ -29,6 +30,7 @@ def measure(index):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
+
 def measure_2(index):
     struct_index = [0 for i in range(64)]
     struct_index[index-1] = 1
@@ -37,6 +39,7 @@ def measure_2(index):
     for i in range(iteration):
         values.append(dynamic_analog.measure(hdwf, 2))
     return sum(values) / len(values)
+
 
 def weight_setting(arr):
     value = []
@@ -68,6 +71,10 @@ def weight_setting(arr):
     return value
 
 def pulse_to_structure():
+    
+
+
+
 
 
 ####################################################################################################################################
@@ -75,6 +82,7 @@ def pulse_to_structure():
 ## зададим картинку
 
 pic = np.loadtxt('experiment/start.txt')
+
 pic = pic*2.2980424272707376/255
 pic = pic.reshape(-1)
 

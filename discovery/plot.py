@@ -68,7 +68,7 @@ def update_graphs():
 
     if not stop_graph:
         x.append(counter)
-        y1.append(measure(27))
+        y1.append(measure_2(43))
         y2.append(measure(28))
         y3.append(measure(29))
         y4.append(measure(30))
@@ -249,7 +249,7 @@ lines6, = ax6.plot([], [], lw=2)
 lines7, = ax7.plot([], [], lw=2)
 lines8, = ax8.plot([], [], lw=2)
 
-ax1.set_title("1 str")
+ax1.set_title("43 str")
 ax2.set_title("2 srt")
 ax3.set_title("3 srt")
 ax4.set_title("9 srt")

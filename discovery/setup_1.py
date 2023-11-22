@@ -59,7 +59,7 @@ def weight_setting(arr):
         led = led.reshape((64,))
         print(led)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(led))
-        time.sleep(3)
+        time.sleep(8)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
         for i, val in enumerate(arr):

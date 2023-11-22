@@ -107,7 +107,7 @@ weight_setting(weights) # задали картинку
 ####### Эксперимент
 
 df= pd.read_csv('experiment/event.csv') # файл с events
-
+df.drop(columns=['Unnamed: 0'])
 
 for i in range(df.shape[0]):
     for j, index in enumerate(indexes):

@@ -21,7 +21,7 @@ dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем свет
 iteration = 50
 
 
-def measure(index):
+def measure(index): # сюда подаются именно номера структур
     struct_index = [0 for i in range(64)]
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
@@ -31,7 +31,7 @@ def measure(index):
     return sum(values) / len(values)
 
 
-def measure_2(index):
+def measure_2(index): # сюда подаются именно номера структур
     struct_index = [0 for i in range(64)]
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)

@@ -79,6 +79,7 @@ def update_graphs():
 
         counter += 1
 
+
         lines1.set_data(x, y1)
         lines2.set_data(x, y2)
         lines3.set_data(x, y3)

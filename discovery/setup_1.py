@@ -52,8 +52,8 @@ def weight_setting(arr):
         else:
             value.append(0)
             
-    while any(abs(a - b) > 0.02 for a, b in zip(arr, value)):
-        led = np.array([int((a - b) > 0.02) for a, b in zip(arr, value)])
+    while any(abs(a - b) > 0.04 for a, b in zip(arr, value)):
+        led = np.array([int((a - b) > 0.04) for a, b in zip(arr, value)])
         led = led.reshape((8,8))
         led = np.flip(led,axis=1)
         led = led.reshape((64,))
@@ -82,11 +82,9 @@ def pulse_to_structure(str_array):
     pass
 
 
-
-
-
-
 ####################################################################################################################################
+
+
 
 ## зададим картинку
 
@@ -104,15 +102,47 @@ for i, index in enumerate(indexes):
 
 weight_setting(weights) # задали картинку 
 
+
+
 ####### Эксперимент
+known_indices = indexes
+weights_array = []
 
 df= pd.read_csv('experiment/event.csv') # файл с events
 df.drop(columns=['Unnamed: 0'])
+
+value = []
+start_time = time.time()
+for i, val in enumerate(known_indices):
+    if val<32:
+        current_time = time.time() - start_time
+        value.append((measure(val), current_time))
+    else:
+        current_time = time.time() - start_time
+        value.append((measure_2(val), current_time))
+
+
 
 for i in range(df.shape[0]):
     for j, index in enumerate(indexes):
         leds_array = [0]*64
         leds_array[index-1] = df.loc[i].to_numpy()[j]
         pulse_to_structure(leds_array)
+
+        for i, val in enumerate(known_indices):
+            if val<32:
+                current_time = time.time() - start_time
+                value.append((measure(val), current_time))
+            else:
+                current_time = time.time() - start_time
+                value.append((measure_2(val), current_time))
+
+data = np.array(value)
+with open("results/setup_1.txt", "w") as file:
+    np.savetxt(file, data)
+
+
+
+device.close(hdwf)
 
         

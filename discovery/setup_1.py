@@ -52,8 +52,8 @@ def weight_setting(arr):
         else:
             value.append(0)
             
-    while any(abs(a - b) > 0.04 for a, b in zip(arr, value)):
-        led = np.array([int((a - b) > 0.04) for a, b in zip(arr, value)])
+    while any(abs(a - b) > 1 for a, b in zip(arr, value)):
+        led = np.array([int((a - b) > 1) for a, b in zip(arr, value)])
         led = led.reshape((8,8))
         led = np.flip(led,axis=1)
         led = led.reshape((64,))

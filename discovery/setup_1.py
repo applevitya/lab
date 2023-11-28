@@ -18,7 +18,7 @@ led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем светодиоды
 
-iteration = 50
+iteration = 100
 
 
 def measure(index): # сюда подаются именно номера структур
@@ -52,8 +52,8 @@ def weight_setting(arr):
         else:
             value.append(0)
             
-    while any(abs(a - b) > 1 for a, b in zip(arr, value)):
-        led = np.array([int((a - b) > 1) for a, b in zip(arr, value)])
+    while any(abs(a - b) > 0.06 for a, b in zip(arr, value)):
+        led = np.array([int((a - b) > 0.06) for a, b in zip(arr, value)])
         led = led.reshape((8,8))
         led = np.flip(led,axis=1)
         led = led.reshape((64,))

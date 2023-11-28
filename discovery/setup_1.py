@@ -127,6 +127,7 @@ for i in range(df.shape[0]):
     for j, index in enumerate(indexes):
         leds_array = [0]*64
         leds_array[index-1] = df.loc[i].to_numpy()[j]
+        leds_array= np.array(leds_array)
         pulse_to_structure(leds_array)
 
         for i, val in enumerate(known_indices):

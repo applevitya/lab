@@ -52,14 +52,14 @@ def weight_setting(arr):
         else:
             value.append(0)
             
-    while any(abs(a - b) > 0.06 for a, b in zip(arr, value)):
-        led = np.array([int((a - b) > 0.06) for a, b in zip(arr, value)])
+    while any(abs(a - b) > 0.1 for a, b in zip(arr, value)):
+        led = np.array([int((a - b) > 0.1) for a, b in zip(arr, value)])
         led = led.reshape((8,8))
         led = np.flip(led,axis=1)
         led = led.reshape((64,))
         print(led)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, list(led))
-        time.sleep(1)
+        time.sleep(1.5)
         dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
         for i, val in enumerate(arr):

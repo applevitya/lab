@@ -42,15 +42,13 @@ def measure_2(index): # сюда подаются именно номера ст
 
 
 def weight_setting(arr):
-    value = []
+    value = [0]*64
     for i, val in enumerate(arr):
         if val != 0:
             if i<32:
-                value.append(measure(i+1))
+                value[i] = measure(i+1)
             else:
-                value.append(measure_2(i+1))
-        else:
-            value.append(0)
+                value[i] = measure_2(i+1)
             
     while any(abs(a - b) > 0.1 for a, b in zip(arr, value)):
         led = np.array([int((a - b) > 0.1) for a, b in zip(arr, value)])
@@ -68,6 +66,7 @@ def weight_setting(arr):
                     value[i] = measure(i+1)
                 else:
                     value[i] = measure_2(i+1)
+
     return value
 
 def pulse_to_structure(str_array):

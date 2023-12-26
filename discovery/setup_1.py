@@ -115,11 +115,11 @@ value = []
 start_time = time.time()
 for i, val in enumerate(known_indices):
     if val<32:
-        current_time = time.time() - start_time
-        value.append((measure(val))
+        # current_time = time.time() - start_time
+        value.append(measure(val))
     else:
-        current_time = time.time() - start_time
-        value.append((measure_2(val), current_time))
+        # current_time = time.time() - start_time
+        value.append(measure_2(val))
 
 
 
@@ -132,11 +132,11 @@ for i in range(df.shape[0]):
 
         for i, val in enumerate(known_indices):
             if val<32:
-                current_time = time.time() - start_time
-                value.append((measure(val), current_time))
+                # current_time = time.time() - start_time
+                value.append(measure(val))
             else:
-                current_time = time.time() - start_time
-                value.append((measure_2(val), current_time))
+                # current_time = time.time() - start_time
+                value.append(measure_2(val))
 
 data = np.array(value)
 with open("results/setup_1.txt", "w") as file:

@@ -143,7 +143,6 @@ with open("results/setup_1.txt", "w") as file:
     np.savetxt(file, data)
 
 
-
 device.close(hdwf)
-
-        
+ 
+ 

@@ -76,7 +76,7 @@ def pulse_to_structure(str_array):
 
     print('Pulse to structure')
     dynamic_digital.led_matrix(hdwf,6,7,5,list(str_array))
-    time.sleep(10)
+    time.sleep(4)
     dynamic_digital.led_matrix(hdwf,6,7,5,list(led_off))
 
     pass
@@ -116,7 +116,7 @@ start_time = time.time()
 for i, val in enumerate(known_indices):
     if val<32:
         current_time = time.time() - start_time
-        value.append((measure(val), current_time))
+        value.append((measure(val))
     else:
         current_time = time.time() - start_time
         value.append((measure_2(val), current_time))

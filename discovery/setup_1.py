@@ -145,4 +145,3 @@ with open("results/setup_1.txt", "w") as file:
 
 device.close(hdwf)
  
- 

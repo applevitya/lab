@@ -40,7 +40,7 @@ def measure(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(300):
+    for i in range(50):
         values.append(dynamic_analog.measure(hdwf, 1))
     return sum(values) / len(values)
 
@@ -49,7 +49,7 @@ def measure_2(index):
     struct_index[index-1] = 1
     dynamic_analog.struct_measure(hdwf, 10, 9, 8, struct_index) # struct_measure(device_handle,shift,clock,data,matrix)
     values = []
-    for i in range(300):
+    for i in range(50):
         values.append(dynamic_analog.measure(hdwf, 2))
     return sum(values) / len(values)
 
@@ -68,9 +68,9 @@ def update_graphs():
 
     if not stop_graph:
         x.append(counter)
-        y1.append(measure(22))
-        y2.append(measure(23))
-        y3.append(measure(24))
+        y1.append(measure_2(43))
+        y2.append(measure(28))
+        y3.append(measure(29))
         y4.append(measure(30))
         y5.append(measure(31))
         y6.append(measure(32))
@@ -78,6 +78,7 @@ def update_graphs():
         y8.append(measure_2(39))
 
         counter += 1
+
 
         lines1.set_data(x, y1)
         lines2.set_data(x, y2)
@@ -248,7 +249,7 @@ lines6, = ax6.plot([], [], lw=2)
 lines7, = ax7.plot([], [], lw=2)
 lines8, = ax8.plot([], [], lw=2)
 
-ax1.set_title("1 str")
+ax1.set_title("43 str")
 ax2.set_title("2 srt")
 ax3.set_title("3 srt")
 ax4.set_title("9 srt")

@@ -18,7 +18,7 @@ led_off = [0 for i in range(64)]
 led_on = [1 for i in range(64)]
 dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off) # выключаем светодиоды
 
-iteration = 200
+iteration = 500
 
 def measure(index):
     struct_index = [0 for i in range(64)]
@@ -84,23 +84,25 @@ start_time = time.time()
 
 while len(weights_array)<20:
     value = measure(known_indices[0])
-    current_time = time.time() - start_time  
+    current_time = time.time() - start_time
     weights_array.append((value, current_time))
     time.sleep(0.03)
 
 #led-stimulation
 
-while len(weights_array)<30:
+while len(weights_array)<320:
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
     time.sleep(1)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
 
     value = measure(known_indices[0])
-    current_time = time.time() - start_time  
+    current_time = time.time() - start_time
     weights_array.append((value, current_time))
     #time.sleep(0.00005)
 
-while len(weights_array)<30000:
+
+
+while len(weights_array)<13000:
     value = measure(known_indices[0])
     current_time = time.time() - start_time  
     weights_array.append((value, current_time))

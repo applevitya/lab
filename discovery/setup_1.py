@@ -112,9 +112,9 @@ df= pd.read_csv('experiment/event.csv') # файл с events
 df.drop(columns=['Unnamed: 0'])
 
 value = []
-start_time = time.time()
+
 for i, val in enumerate(known_indices):
-    if val<32:
+    if val < 33:
         # current_time = time.time() - start_time
         value.append(measure(val))
     else:
@@ -131,7 +131,7 @@ for i in range(df.shape[0]):
         pulse_to_structure(leds_array)
 
         for i, val in enumerate(known_indices):
-            if val<32:
+            if val < 33:
                 # current_time = time.time() - start_time
                 value.append(measure(val))
             else:

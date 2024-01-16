@@ -77,43 +77,32 @@ def measure_2(index):
 ############################################################################################################################################################
 #one impulse detection
 
-known_indices = [24]
-weights_array = []
+known_indices = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 50))
+weights_array=np.empty(shape=(50000,len(known_indices)))
 
-start_time = time.time()
 
-while len(weights_array)<20:
-    value = measure(known_indices[0])
-    current_time = time.time() - start_time
-    weights_array.append((value, current_time))
-    time.sleep(0.03)
-
-#led-stimulation
-
-while len(weights_array)<320:
+for i in range(60):
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
     time.sleep(1)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
+    for j,val in enumerate(known_indices):
+        if val<33:
+            weights_array[i][j] = measure(val)
+        else:
+            weights_array[i][j] = measure_2(val)
 
-    value = measure(known_indices[0])
-    current_time = time.time() - start_time
-    weights_array.append((value, current_time))
-    #time.sleep(0.00005)
-
-
-
-while len(weights_array)<13000:
-    value = measure(known_indices[0])
-    current_time = time.time() - start_time  
-    weights_array.append((value, current_time))
+for i in range(60,weights_array.shape[0]):
     time.sleep(1)
+    for j,val in enumerate(known_indices):
+        if val<33:
+            weights_array[i][j] = measure(val)
+        else:
+            weights_array[i][j] = measure_2(val)
 
 
 data = np.array(weights_array)
 with open("results/calibration.txt", "w") as file:
     np.savetxt(file, data)
-
-
 
 
 device.close(hdwf)

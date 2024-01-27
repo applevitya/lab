@@ -80,8 +80,9 @@ def measure_2(index):
 known_indices = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 50))
 weights_array=np.empty(shape=(50000,len(known_indices)))
 
+time_impulses = 500 
 
-for i in range(60):
+for i in range(time_impulses):
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_on)
     time.sleep(1)
     dynamic_digital.led_matrix(hdwf, 6, 7, 5, led_off)
@@ -91,7 +92,7 @@ for i in range(60):
         else:
             weights_array[i][j] = measure_2(val)
 
-for i in range(60,weights_array.shape[0]):
+for i in range(time_impulses,time_impulses+400):
     time.sleep(1)
     for j,val in enumerate(known_indices):
         if val<33:

@@ -59,13 +59,13 @@ weights_array=np.empty(shape=(10000,len(known_indices)))
 led = [0] * 64
 
 led[known_indices[0] - 1:known_indices[3] - 1] = [1,1,1]
-pulse_to_structure(np.array(led),10)
+pulse_to_structure(np.array(led), 10)
 
 # stage2 - 25 sec
 led = [0] * 64
 
 led[known_indices[3] - 1:known_indices[6] - 1] = [1,1,1]
-pulse_to_structure(np.array(led),25)
+pulse_to_structure(np.array(led), 25)
 
 
 # stage3 - 35 sec

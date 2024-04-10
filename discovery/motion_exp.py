@@ -64,20 +64,27 @@ pulse_to_structure(np.array(led), 10)
 # stage2 - 25 sec
 led = [0] * 64
 
-led[known_indices[3] - 1:known_indices[6] - 1] = [1,1,1]
+for _,val in enumerate(known_indices[3:6]):
+    print(f"{j},{val}")
+    led[val-1] = 1
 pulse_to_structure(np.array(led), 25)
 
 
 # stage3 - 35 sec
 led = [0] * 64
 
-led[known_indices[6] - 1:known_indices[9] - 1] = [1,1,1]
+for _,val in enumerate(known_indices[6:9]):
+    print(f"{j},{val}")
+    led[val-1] = 1
 pulse_to_structure(np.array(led),35)
+
 
 # stage4 - 45 sec
 led = [0] * 64
 
-led[known_indices[9] - 1:known_indices[12] - 1] = [1,1,1]
+for _,val in enumerate(known_indices[9:12]):
+    print(f"{j},{val}")
+    led[val-1] = 1
 pulse_to_structure(np.array(led),45)
 
 

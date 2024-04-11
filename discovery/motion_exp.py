@@ -55,37 +55,39 @@ def pulse_to_structure(str_array: Array, dt: int):
 known_indices = list(range(19, 25)) + list(range(27, 33)) + [34] + list(range(36, 41)) + list(range(43, 49)) + list(range(49, 50))
 weights_array=np.empty(shape=(10000,len(known_indices)))
 
-# stage1 - 10 sec
-led = [0] * 64
+# # stage1 - 10 sec
 
-led[known_indices[0] - 1:known_indices[3] - 1] = [1,1,1]
-pulse_to_structure(np.array(led), 10)
-
-# stage2 - 25 sec
-led = [0] * 64
-
-for _,val in enumerate(known_indices[3:6]):
+for _,val in enumerate(known_indices[0:3]):
+    led = [0]*64
     print(f"{val}")
     led[val-1] = 1
-pulse_to_structure(np.array(led), 25)
+    pulse_to_structure(np.array(led), 10)
+    
+# stage2 - 25 sec
+
+for _,val in enumerate(known_indices[3:6]):
+    led = [0] * 64
+    print(f"{val}")
+    led[val-1] = 1
+    pulse_to_structure(np.array(led), 25)
 
 
 # stage3 - 35 sec
-led = [0] * 64
 
 for _,val in enumerate(known_indices[6:9]):
+    led = [0] * 64
     print(f"{val}")
     led[val-1] = 1
-pulse_to_structure(np.array(led),35)
+    pulse_to_structure(np.array(led),35)
 
 
 # stage4 - 45 sec
-led = [0] * 64
 
 for _,val in enumerate(known_indices[9:12]):
+    led = [0] * 64
     print(f"{val}")
     led[val-1] = 1
-pulse_to_structure(np.array(led),45)
+    pulse_to_structure(np.array(led),45)
 
 
 
